@@ -33,9 +33,11 @@ public class ChatSwitchCommand implements CommandExecutor {
 		String currentMode = null;
 		HashMap<String, String> chatMode = plugin.getCommands().chatMode;
 		
+		// If there is already a key, use that key as latest one
 		if (plugin.getCommands().chatMode.containsKey(sender.getName())) {
 			currentMode = plugin.getCommands().chatMode.get(sender.getName());
 		} else {
+			// There is no key specified, so default to global chat
 			currentMode = "global";
 		}
 
