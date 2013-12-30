@@ -1,0 +1,146 @@
+package me.staartvin.prisongang;
+
+import me.staartvin.prisongang.chat.ChatListener;
+import me.staartvin.prisongang.commands.Commands;
+import me.staartvin.prisongang.config.Config;
+import me.staartvin.prisongang.gang.GangHandler;
+import me.staartvin.prisongang.listeners.PlayerJoinListener;
+import me.staartvin.prisongang.permissions.PermissionsManager;
+import me.staartvin.prisongang.playerdata.PlayerDataHandler;
+import me.staartvin.prisongang.playerdata.RefreshPlayerDataTask;
+import me.staartvin.prisongang.save.SaveGangDataTask;
+import me.staartvin.prisongang.save.SaveManager;
+import me.staartvin.prisongang.save.SavePlayerDataTask;
+import me.staartvin.prisongang.vault.VaultHandler;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class PrisonGang extends JavaPlugin {
+
+	private Config gangDataFile = new Config(this, "", "gangs.yml");
+	private Config playerDataFile = new Config(this, "", "playerdata.yml");
+
+	private PlayerDataHandler playerDataHandler = new PlayerDataHandler(this);
+	private GangHandler gangHandler = new GangHandler(this);
+	private SaveManager saveManager = new SaveManager(this);
+	private Commands commands = new Commands(this);
+	private PermissionsManager permManager = new PermissionsManager(this);
+	
+	private VaultHandler vaultHandler;
+
+	public void onEnable() {
+		gangDataFile
+				.createNewFile(
+						"Gangs data file has been loaded!",
+						"This file stores all information about gangs. "
+								+ "You do not have to edit this manually. \nAll the settings can be changed via commands in-game."
+								+ "\nEditing any data in here manually will void warranty of a working plugin.");
+
+		playerDataFile
+				.createNewFile(
+						"Playerdata file has been loaded!",
+						"This file stores all information about the players. "
+								+ "You do not have to edit this manually. \nThese settings will be changed by the plugin automatically."
+								+ "\nEditing any data in here manually will void warranty of a working plugin.");
+
+		// Load player and gang data
+		getLogger().info(gangHandler.loadGangsFromConfig() + " gangs loaded!");
+
+		// Register listeners
+		registerListeners();
+
+		// Startup save tasks
+		startTasks();
+
+		// Register gang command
+		getCommand("prisongang").setExecutor(commands);
+		
+		// Check for Vault
+		if (getServer().getPluginManager().getPlugin("Vault") != null) {
+			vaultHandler = new VaultHandler(this);
+			
+		}
+
+		getLogger().info(
+				"PrisonGang v" + getDescription().getVersion()
+						+ " has been enabled!");
+	}
+
+	public void onDisable() {
+
+		// Save new gangdata
+		saveManager.saveGangData();
+
+		// Save gangdata file
+		gangDataFile.reloadConfig();
+		gangDataFile.saveConfig();
+
+		// Save new data
+		saveManager.savePlayerData();
+
+		// Save playerdata file
+		playerDataFile.reloadConfig();
+		playerDataFile.saveConfig();
+
+		// Stop all tasks running or scheduled
+		getServer().getScheduler().cancelTasks(this);
+
+		// Reset all gangs
+		gangHandler.resetAllGangs();
+
+		getLogger().info(
+				"PrisonGang v" + getDescription().getVersion()
+						+ " has been disabled!");
+	}
+
+	private void registerListeners() {
+		getServer().getPluginManager().registerEvents(
+				new PlayerJoinListener(this), this);
+		getServer().getPluginManager().registerEvents(new ChatListener(this),
+				this);
+	}
+
+	private void startTasks() {
+		// Run the save tasks each minute
+		getServer().getScheduler().runTaskTimerAsynchronously(this,
+				new SavePlayerDataTask(this), 100L, 1200L);
+		getServer().getScheduler().runTaskTimerAsynchronously(this,
+				new SaveGangDataTask(this), 100L, 1200L);
+
+		// Run refresh task once for when the server is reloaded
+		getServer().getScheduler().runTask(this,
+				new RefreshPlayerDataTask(this));
+	}
+
+	public Config getGangDataFile() {
+		return gangDataFile;
+	}
+
+	public Config getPlayerDataFile() {
+		return playerDataFile;
+	}
+
+	public PlayerDataHandler getPlayerDataHandler() {
+		return playerDataHandler;
+	}
+
+	public SaveManager getSaveManager() {
+		return saveManager;
+	}
+
+	public GangHandler getGangHandler() {
+		return gangHandler;
+	}
+
+	public Commands getCommands() {
+		return commands;
+	}
+
+	public PermissionsManager getPermissionsManager() {
+		return permManager;
+	}
+	
+	public VaultHandler getVaultHandler() {
+		return vaultHandler;
+	}
+}
