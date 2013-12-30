@@ -202,6 +202,13 @@ public class GangHandler {
 		return gang;
 	}
 	
+	/**
+	 * Delete a gang from the load and the file system.
+	 * <p>
+	 * The gang will be unloaded and all references to it will be losted.
+	 * Afterwards, the gang gets cleared of the file system.
+	 * @param gangName name of gang to unload and remove
+	 */
 	public void deleteGang(String gangName) {
 		// Gang 
 		Gang gang = getGang(gangName);
@@ -272,10 +279,17 @@ public class GangHandler {
 		file.saveConfig();
 	}
 
+	/**
+	 * Get all loaded gangs
+	 * @return a list of loaded gangs
+	 */
 	public List<Gang> getAllGangs() {
 		return gangs;
 	}
 	
+	/**
+	 * Unload all gangs. This will cause all gangs to be lost forever.
+	 */
 	public void resetAllGangs() {
 		gangs = new ArrayList<Gang>();
 	}
