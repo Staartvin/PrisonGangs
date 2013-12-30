@@ -240,14 +240,26 @@ public class Gang {
 		return false;
 	}
 
+	/**
+	 * Get the title of the leader of this gang
+	 * @return title of the leader
+	 */
 	public String getLeadersTitle() {
 		return leadersTitle;
 	}
 
+	/**
+	 * Set the title a leader has for this gang
+	 * @param leadersTitle title to set it to
+	 */
 	public void setLeadersTitle(String leadersTitle) {
 		this.leadersTitle = leadersTitle;
 	}
 	
+	/**
+	 * Get all the info arguments that are saved
+	 * @return a list of arguments saved for this gang
+	 */
 	public Set<String> getInfoKeys() {
 		return info.keySet();
 	}
@@ -308,6 +320,10 @@ public class Gang {
 		return false;
 	}
 	
+	/**
+	 * Get a list of invited players for this gang
+	 * @return all players that are invited for this gang
+	 */
 	public List<String> getInvited() {
 		if (!info.containsKey("invited")) return new ArrayList<String>();
 		// No invited players
@@ -330,6 +346,11 @@ public class Gang {
 		return invited;
 	}
 	
+	/**
+	 * Add a player to the 'invited' list.
+	 * If a gang is private, only players that are on the invited list can join the gang.
+	 * @param playerName Name of the player to add to the list
+	 */
 	public void invitePlayer(String playerName) {
 		// Player is already invited!
 		if (isInvited(playerName)) return;
