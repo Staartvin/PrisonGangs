@@ -40,18 +40,20 @@ public class ChatSwitchCommand implements CommandExecutor {
 			// There is no key specified, so default to global chat
 			currentMode = "global";
 		}
+		
+		String newMode = null;
 
 		// switch from global -> ally only -> gang only
 		if (currentMode.equals("global")) {
-			chatMode.put(sender.getName(), "ally-only");
-			sender.sendMessage(ChatColor.GREEN + "Chat mode has been changed to " + ChatColor.GOLD + "ally only");
+			newMode = "ally-only";
 		} else if (currentMode.equals("ally-only")) {
-			chatMode.put(sender.getName(), "gang-only");
-			sender.sendMessage(ChatColor.GREEN + "Chat mode has been changed to " + ChatColor.GOLD + "gang only");
+			newMode = "gang-only";
 		} else if (currentMode.equals("gang-only")) {
-			chatMode.put(sender.getName(), "global");
-			sender.sendMessage(ChatColor.GREEN + "Chat mode has been changed to " + ChatColor.GOLD + "global");
+			newMode = "global";
 		}
+		
+		chatMode.put(sender.getName(), newMode);
+		sender.sendMessage(ChatColor.GREEN + "Chat mode has been changed to " + ChatColor.GOLD + newMode);
 		
 		return true;
 	}
