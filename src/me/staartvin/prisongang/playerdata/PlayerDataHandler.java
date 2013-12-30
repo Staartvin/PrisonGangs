@@ -57,6 +57,10 @@ public class PlayerDataHandler {
 		return data;
 	}
 
+	/**
+	 * Gets all loaded players
+	 * @return a list of a players loaded right now
+	 */
 	public Set<String> getAllPlayerData() {
 		return playerData.keySet();
 	}
