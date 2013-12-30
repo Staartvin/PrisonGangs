@@ -55,7 +55,6 @@ public class ChatSwitchCommand implements CommandExecutor {
 		// Change mode to new mode
 		chatMode.put(sender.getName(), newMode);
 		
-		
 		// Notify player
 		sender.sendMessage(ChatColor.GREEN + "Chat mode has been changed to " + ChatColor.GOLD + newMode);
 		
