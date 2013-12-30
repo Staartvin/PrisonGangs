@@ -140,6 +140,13 @@ public class PlayerData {
 		return gangName != null && !gangName.trim().equals("");
 	}
 	
+	/**
+	 * Resets the abilities of this player.
+	 * <p>
+	 * This is used when the player leaves a gang so
+	 * that the abilities of the old gang
+	 * do not carry over to the next one.
+	 */
 	public void resetAbilities() {
 		// Set it to an empty list
 		abilities = new ArrayList<GangAbility>();
