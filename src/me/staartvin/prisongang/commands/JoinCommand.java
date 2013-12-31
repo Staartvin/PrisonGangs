@@ -80,6 +80,9 @@ public class JoinCommand implements CommandExecutor {
 				sender.sendMessage(ChatColor.YELLOW + "You need to be invited first!");
 				return true;	
 			}
+			
+			// Remove from the invited list because the player now joined the gang
+			gang.unInvitePlayer(sender.getName());
 		}
 		
 		// Add player to gang

@@ -84,7 +84,11 @@ public class InviteCommand implements CommandExecutor {
 		
 		gang.invitePlayer(target.getName());
 		
+		// Notify player
 		sender.sendMessage(ChatColor.GREEN + target.getName() + " has been invited to the gang!");
+		
+		// Notify invitee
+		target.sendMessage(ChatColor.GREEN + "You have been invited to join " + ChatColor.GOLD + gang.getGangName() + ChatColor.GREEN + " by " + ChatColor.GOLD + sender.getName());
 		
 		return true;
 	}

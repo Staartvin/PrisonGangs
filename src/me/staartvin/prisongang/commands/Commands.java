@@ -35,6 +35,7 @@ public class Commands implements CommandExecutor {
 	private ShowAlliesCommand showAllies;
 	private ShowEnemiesCommand showEnemies;
 	private InviteCommand invite;
+	private UnInviteCommand unInvite;
 
 	public Commands(PrisonGang instance) {
 		plugin = instance;
@@ -60,6 +61,7 @@ public class Commands implements CommandExecutor {
 		showAllies = new ShowAlliesCommand(instance);
 		showEnemies = new ShowEnemiesCommand(instance);
 		invite = new InviteCommand(instance);
+		unInvite = new UnInviteCommand(instance);
 	}
 	
 	public static String[] allowedSetArgs = {"desc", "leader", "private"};
@@ -143,6 +145,8 @@ public class Commands implements CommandExecutor {
 			return showEnemies.onCommand(sender, command, label, args);
 		} else if (args[0].equalsIgnoreCase("invite")) {
 			return invite.onCommand(sender, command, label, args);
+		} else if (args[0].equalsIgnoreCase("uninvite")) {
+			return unInvite.onCommand(sender, command, label, args);
 		}
 
 		sender.sendMessage(ChatColor.RED + "Invalid command.");

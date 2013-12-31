@@ -113,15 +113,15 @@ public class Gang {
 		String arg = findArgument(argumentName);
 
 		if (arg == null) {
-			return "no leader";
+			throw new IllegalArgumentException(argumentName + " is not a valid argument!");
 		}
 		
-		String leader;
+		String value;
 		
-		// Leader is player name when found, or 'no leader' when it's not found
-		leader = (info.get(arg) != null) ? info.get(arg) : "no leader";
+		// Check if the info contains the key 'arg', is not null, is not equal to '' and is not equal to the string 'null'.
+		value = (info.containsKey(arg) && info.get(arg) != null && !info.get(arg).equals("") && !info.get(arg).equals("null")) ? info.get(arg) : null;
 		
-		return leader;
+		return value;
 	}
 
 	/**
@@ -366,6 +366,30 @@ public class Gang {
 		invited = invited + playerName + ",";
 		
 		// Store new data
+		info.put("invited", invited);
+	}
+	
+	public void unInvitePlayer(String playerName) {
+		// If player is not invited, I cannot uninvite him/her!
+		if (!isInvited(playerName)) return;
+		
+		String invited = null;
+		
+		if (!info.containsKey("invited")) {
+			invited = "";
+		} else {
+			invited = info.get("invited");
+		}
+		
+		// Remove name from invited list (+ comma)
+		invited = invited.replace(playerName + ",", "").trim();
+		
+		// There are no invitees on the list, so it can be null
+		if (invited.equals("") || invited.equals("null")) {
+			info.remove(invited);
+		}
+		
+		// Update value
 		info.put("invited", invited);
 	}
 }

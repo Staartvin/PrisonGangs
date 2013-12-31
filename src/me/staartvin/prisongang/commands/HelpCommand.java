@@ -71,6 +71,8 @@ public class HelpCommand implements CommandExecutor {
 					+ "- Shows all gang's allies");
 			sender.sendMessage(ChatColor.AQUA + "/gang invite <player> " + ChatColor.GRAY
 					+ "- Invite a player to the gang");
+			sender.sendMessage(ChatColor.AQUA + "/gang uninvite <player> " + ChatColor.GRAY
+					+ "- Uninvite a player from the gang");
 			sender.sendMessage(ChatColor.BLUE + "Page 3 of " + maxPages);
 		} else if (page == 4) {
 			sender.sendMessage(ChatColor.GREEN + "-- PrisonGang Commands --");
