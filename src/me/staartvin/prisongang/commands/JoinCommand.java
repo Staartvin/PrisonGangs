@@ -83,9 +83,9 @@ public class JoinCommand implements CommandExecutor {
 		}
 		
 		// Add player to gang
-		player.setGangName(gang.getGangName());
-		
 		gang.addMember(sender.getName());
+		
+		player.setGangName(gang.getGangName());
 		
 		sender.sendMessage(ChatColor.GREEN + "You successfully joined '" + gang.getGangName() + "'!");
 		
