@@ -61,6 +61,8 @@ public class HelpCommand implements CommandExecutor {
 			sender.sendMessage(ChatColor.GREEN + "-- PrisonGang Commands --");
 			sender.sendMessage(ChatColor.AQUA + "/gang ability remove <player> <ability> "
 					+ ChatColor.GRAY + "- Remove an ability from a player");
+			sender.sendMessage(ChatColor.AQUA + "/gang ability list "
+					+ ChatColor.GRAY + "- Show a list of abilities you can give or take");
 			sender.sendMessage(ChatColor.AQUA + "/gang members " + ChatColor.GRAY
 					+ "- Shows all gang's members");
 			sender.sendMessage(ChatColor.AQUA + "/gang allies " + ChatColor.GRAY
