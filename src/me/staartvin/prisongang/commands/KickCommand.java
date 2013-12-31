@@ -99,16 +99,16 @@ public class KickCommand implements CommandExecutor {
 		gang.removeMember(target);
 		
 		// Remove player data
-		player.setGangName(null);
+		oPlayer.setGangName(null);
 		
 		// Reset abilities
-		player.resetAbilities();
+		oPlayer.resetAbilities();
 		
 		// Reset rank name
-		player.setRankName(null);
+		oPlayer.setRankName(null);
 		
 		// Send sender a message
-		sender.sendMessage(ChatColor.GREEN + "You kicked '" + target + " out of " + gang.getGangName() + "'!");
+		sender.sendMessage(ChatColor.GREEN + "You kicked '" + target + "' out of " + gang.getGangName() + "!");
 		
 		// Try to send kicked player a message
 		if (offPlayer.getPlayer() != null) {
