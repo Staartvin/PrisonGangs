@@ -98,9 +98,14 @@ public class ChatListener implements Listener {
 		if (chatMode.equals("global"))
 			return;
 
+		// Used to show what chat mode you're in
+		String chatPrefix = "";
+		
 		if (chatMode.equals("ally-only")) {
 			// Ally and gang should see message
 
+			chatPrefix = "[Ally]";
+			
 			for (Player pRecip : recip) {
 				if (!plugin.getPlayerDataHandler().isAlly(player, pRecip)
 						&& !plugin.getPlayerDataHandler().isGangPartner(player,
@@ -111,7 +116,9 @@ public class ChatListener implements Listener {
 				}
 			}
 		} else if (chatMode.equals("gang-only")) {
-			// Ally and gang should see message
+			// Gang should see message
+			
+			chatPrefix = "[Gang]";
 
 			for (Player pRecip : recip) {
 				if (!plugin.getPlayerDataHandler()
@@ -125,6 +132,9 @@ public class ChatListener implements Listener {
 
 		// Remove all players that cannot get this message.
 		recip.removeAll(removeables);
+		
+		// Change so chatprefix is added to the format
+		event.setFormat(chatPrefix + " " + event.getFormat());
 	}
 
 	private String removeExtraSpaces(String oldString) {
