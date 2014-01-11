@@ -219,8 +219,8 @@ public class GangHandler {
 		
 		// Remove all players
 		for (String player: gang.getMembers()) {
-			PlayerData p = plugin.getPlayerDataHandler().getPlayerData(player);
-			
+			PlayerData p = plugin.getPlayerDataHandler().getForcedPlayerData(player);
+						
 			// Reset rank name
 			p.setRankName(null);
 			

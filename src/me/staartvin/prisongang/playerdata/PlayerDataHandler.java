@@ -35,6 +35,34 @@ public class PlayerDataHandler {
 	public PlayerData getPlayerData(String playerName) {
 		return playerData.get(playerName);
 	}
+	
+	/**
+	 * Get the PlayerData class of this player.
+	 * If this PlayerData class cannot be found in the memory, it will search for the file in the file system.
+	 * <p>
+	 * If the file must be loaded from the file system, it will be automatically stored in the memory for when you need it again.
+	 * <b>NOTE:</b> running this frequently can cause a lot of server lag because the plugin has to search the file system.
+	 * @param playerName Name of the player
+	 * @return {@link PlayerDataHandler} object that holds all information about the player
+	 */
+	public PlayerData getForcedPlayerData(String playerName) {
+		// This method will get the player data. If this was not loaded because the player didn't join before, it will grab it from the file system.
+		
+		PlayerData pData = getPlayerData(playerName);
+		
+		if (pData != null) {
+			return pData;
+		}
+		
+		pData = loadPlayerData(playerName);
+		
+		if (pData != null) {
+			return pData;
+		} else {
+			throw new NullPointerException("Player '" + playerName + "' exists in the database but cannot be found?! Did the file system change?");
+		}
+		
+	}
 
 	/**
 	 * Create a new playerdata class for a player
