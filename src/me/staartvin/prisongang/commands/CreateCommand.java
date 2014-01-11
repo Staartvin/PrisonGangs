@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
 public class CreateCommand implements CommandExecutor {
 
 	private PrisonGang plugin;
+	
+	private String[] codes = {"&0", "&1", "&2", "&3", "&4", "&5", "&6", "&7", "&8", "&9", "&a", "&b", "&c", "&d", "&e", "&f", "&m", "&n", "&l", "&k", "&o"};
 
 	public CreateCommand(PrisonGang instance) {
 		plugin = instance;
@@ -61,6 +63,11 @@ public class CreateCommand implements CommandExecutor {
 					+ "There already is a gang with that name!");
 			return true;
 		}
+		
+		if (containsColours(gangName)) {
+			sender.sendMessage(ChatColor.RED + "You cannot use formatting codes in the name!");
+			return true;
+		}
 
 		gang = plugin.getGangHandler().getGangByLeader(sender.getName());
 
@@ -91,5 +98,17 @@ public class CreateCommand implements CommandExecutor {
 				+ "' has been created!");
 		
 		return true;
+	}
+	
+	private boolean containsColours(String text) {
+		text = text.toLowerCase();
+		
+		for (String code: codes) {
+			if (text.contains(code)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
