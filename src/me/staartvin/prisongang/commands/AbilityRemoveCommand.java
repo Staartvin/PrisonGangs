@@ -39,7 +39,7 @@ public class AbilityRemoveCommand implements CommandExecutor {
 			return true;
 		}
 
-		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName());
+		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		Player targetPlayer = plugin.getServer().getPlayer(target);
 		
@@ -48,7 +48,7 @@ public class AbilityRemoveCommand implements CommandExecutor {
 			return true;
 		}
 
-		PlayerData targetData = plugin.getPlayerDataHandler().getPlayerData(targetPlayer.getName());
+		PlayerData targetData = plugin.getPlayerDataHandler().getPlayerData(targetPlayer.getName(), false);
 		
 		if (!player.isInGang()) {
 			sender.sendMessage(ChatColor.RED + "You're not in a gang!");

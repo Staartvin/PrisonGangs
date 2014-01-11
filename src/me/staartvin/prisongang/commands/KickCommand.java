@@ -42,7 +42,7 @@ public class KickCommand implements CommandExecutor {
 			return true;
 		}
 
-		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName());
+		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (!player.isInGang()) {
 			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
@@ -83,7 +83,7 @@ public class KickCommand implements CommandExecutor {
 			target = offPlayer.getName();
 		}
 		
-		PlayerData oPlayer = plugin.getPlayerDataHandler().getPlayerData(target);
+		PlayerData oPlayer = plugin.getPlayerDataHandler().getPlayerData(target, true);
 		
 		if (oPlayer == null) {
 			sender.sendMessage(ChatColor.RED + "Player '" + target + "' does not exist.");

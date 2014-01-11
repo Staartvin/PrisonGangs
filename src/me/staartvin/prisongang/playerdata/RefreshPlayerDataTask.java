@@ -21,7 +21,7 @@ public class RefreshPlayerDataTask extends BukkitRunnable {
 			
 			PlayerData data;
 			
-			data = plugin.getPlayerDataHandler().getPlayerData(p.getName());
+			data = plugin.getPlayerDataHandler().getPlayerData(p.getName(), false);
 		
 			// Player has not been loaded
 			if (data == null) {

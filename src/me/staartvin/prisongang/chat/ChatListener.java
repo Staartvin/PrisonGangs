@@ -32,7 +32,7 @@ public class ChatListener implements Listener {
 
 		Player player = event.getPlayer();
 		PlayerData data = plugin.getPlayerDataHandler().getPlayerData(
-				player.getName());
+				player.getName(), true);
 
 		Set<Player> recip = event.getRecipients();
 

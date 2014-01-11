@@ -54,7 +54,7 @@ public class SetCommand implements CommandExecutor {
 			return true;
 		}
 
-		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName());
+		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (!player.isInGang()) {
 			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
@@ -127,7 +127,7 @@ public class SetCommand implements CommandExecutor {
 			
 			gang.setInfo("leader", value);
 			
-			plugin.getPlayerDataHandler().getPlayerData(value).setRankName(gang.getLeadersTitle());
+			plugin.getPlayerDataHandler().getPlayerData(value, false).setRankName(gang.getLeadersTitle());
 			
 			sender.sendMessage(ChatColor.GREEN + value + " is now the new leader!");
 			

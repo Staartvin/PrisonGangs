@@ -30,25 +30,17 @@ public class PlayerDataHandler {
 	 * Get the PlayerData class of this player
 	 * 
 	 * @param playerName name of the player
+	 * @param forced If true, the data class will be searched for in the file system if it is not found in the memory.
 	 * @return PlayerData class associated with this player
 	 */
-	public PlayerData getPlayerData(String playerName) {
-		return playerData.get(playerName);
-	}
-	
-	/**
-	 * Get the PlayerData class of this player.
-	 * If this PlayerData class cannot be found in the memory, it will search for the file in the file system.
-	 * <p>
-	 * If the file must be loaded from the file system, it will be automatically stored in the memory for when you need it again.
-	 * <b>NOTE:</b> running this frequently can cause a lot of server lag because the plugin has to search the file system.
-	 * @param playerName Name of the player
-	 * @return {@link PlayerDataHandler} object that holds all information about the player
-	 */
-	public PlayerData getForcedPlayerData(String playerName) {
-		// This method will get the player data. If this was not loaded because the player didn't join before, it will grab it from the file system.
+	public PlayerData getPlayerData(String playerName, boolean forced) {// This method will get the player data. If this was not loaded because the player didn't join before, it will grab it from the file system.
 		
-		PlayerData pData = getPlayerData(playerName);
+		PlayerData pData = playerData.get(playerName);
+		
+		// If not forced, always return, even though it can be null
+		if (!forced) {
+			return pData;
+		}
 		
 		if (pData != null) {
 			return pData;
@@ -61,7 +53,6 @@ public class PlayerDataHandler {
 		} else {
 			throw new NullPointerException("Player '" + playerName + "' exists in the database but cannot be found?! Did the file system change?");
 		}
-		
 	}
 
 	/**
@@ -168,8 +159,8 @@ public class PlayerDataHandler {
 	 * @return true if allies; false otherwise
 	 */
 	public boolean isAlly(Player one, Player two) {
-		PlayerData oneData = getPlayerData(one.getName());
-		PlayerData twoData = getPlayerData(two.getName());
+		PlayerData oneData = getPlayerData(one.getName(), false);
+		PlayerData twoData = getPlayerData(two.getName(), false);
 		
 		if (!oneData.isInGang() || !twoData.isInGang()) return false;
 		
@@ -194,8 +185,8 @@ public class PlayerDataHandler {
 	 * @return true if enemies; false otherwise
 	 */
 	public boolean isEnemy(Player one, Player two) {
-		PlayerData oneData = getPlayerData(one.getName());
-		PlayerData twoData = getPlayerData(two.getName());
+		PlayerData oneData = getPlayerData(one.getName(), false);
+		PlayerData twoData = getPlayerData(two.getName(), false);
 		
 		if (!oneData.isInGang() || !twoData.isInGang()) return false;
 		
@@ -220,8 +211,8 @@ public class PlayerDataHandler {
 	 * @return true if in the same gang; false otherwise
 	 */
 	public boolean isGangPartner(Player one, Player two) {
-		PlayerData oneData = getPlayerData(one.getName());
-		PlayerData twoData = getPlayerData(two.getName());
+		PlayerData oneData = getPlayerData(one.getName(), false);
+		PlayerData twoData = getPlayerData(two.getName(), false);
 		
 		if (!oneData.isInGang() || !twoData.isInGang()) return false;
 		

@@ -27,7 +27,7 @@ public class SaveManager {
 		
 		for (String key: data) {
 			
-			PlayerData player = plugin.getPlayerDataHandler().getPlayerData(key);
+			PlayerData player = plugin.getPlayerDataHandler().getPlayerData(key, false);
 			
 			plugin.getPlayerDataHandler().savePlayerData(player);
 		}

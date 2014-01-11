@@ -52,7 +52,7 @@ public class CreateCommand implements CommandExecutor {
 		}
 		
 		// Find playerdata
-		PlayerData data = plugin.getPlayerDataHandler().getPlayerData(sender.getName());
+		PlayerData data = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		String gangName = plugin.getCommands().getFullString(newArgs);
 

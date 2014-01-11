@@ -38,7 +38,7 @@ public class ShowAlliesCommand implements CommandExecutor {
 			return true;
 		}
 
-		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName());
+		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (!player.isInGang()) {
 			sender.sendMessage(ChatColor.RED + "You're not in a gang!");

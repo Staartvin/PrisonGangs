@@ -56,7 +56,7 @@ public class JoinCommand implements CommandExecutor {
 			return true;
 		}
 
-		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName());
+		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (player.isInGang()) {
 			sender.sendMessage(ChatColor.RED + "You're already in a gang!");

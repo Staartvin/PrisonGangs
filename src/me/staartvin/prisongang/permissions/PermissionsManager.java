@@ -30,7 +30,7 @@ public class PermissionsManager {
 	 * @return true if the player has this ability; false otherwise
 	 */
 	public boolean hasAbility(Player player, GangAbility abi) {
-		PlayerData data = plugin.getPlayerDataHandler().getPlayerData(player.getName());
+		PlayerData data = plugin.getPlayerDataHandler().getPlayerData(player.getName(), false);
 		
 		if (data == null) return false;
 		

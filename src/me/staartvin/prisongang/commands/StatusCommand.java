@@ -53,7 +53,7 @@ public class StatusCommand implements CommandExecutor {
 			return true;
 		}
 
-		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName());
+		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (targetGang == null) {
 			sender.sendMessage(ChatColor.RED + "There is no gang with that name!");

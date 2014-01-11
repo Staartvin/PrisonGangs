@@ -54,7 +54,7 @@ public class InfoCommand implements CommandExecutor {
 			}
 
 			player = plugin.getPlayerDataHandler().getPlayerData(
-					sender.getName());
+					sender.getName(), false);
 
 			if (!player.isInGang()) {
 				sender.sendMessage(ChatColor.RED + "Please provide a gang!");

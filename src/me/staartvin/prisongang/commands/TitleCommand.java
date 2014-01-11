@@ -54,14 +54,14 @@ public class TitleCommand implements CommandExecutor {
 			return true;
 		}
 
-		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName());
+		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 		
-		if (plugin.getPlayerDataHandler().getPlayerData(args[1]) == null) {
+		if (plugin.getPlayerDataHandler().getPlayerData(args[1], true) == null) {
 			sender.sendMessage(ChatColor.RED + "Invalid player given!");
 			return true;
 		}
 		
-		targetPlayer = plugin.getPlayerDataHandler().getPlayerData(args[1]);
+		targetPlayer = plugin.getPlayerDataHandler().getPlayerData(args[1], true);
 
 		if (!player.isInGang()) {
 			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
