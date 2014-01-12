@@ -169,7 +169,7 @@ public class PlayerDataHandler {
 		for (String gangName: oneGang.getAllies()) {
 			Gang gang = plugin.getGangHandler().getGang(gangName);
 			
-			if (gang == null) return false;
+			if (gang == null) continue;
 			
 			for (String playerName: gang.getMembers()) {
 				if (playerName.equalsIgnoreCase(two.getName())) {
@@ -196,6 +196,8 @@ public class PlayerDataHandler {
 		
 		for (String gangName: oneGang.getEnemies()) {
 			Gang gang = plugin.getGangHandler().getGang(gangName);
+			
+			if (gang == null) continue;
 			
 			for (String playerName: gang.getMembers()) {
 				if (playerName.equalsIgnoreCase(two.getName())) {
