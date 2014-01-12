@@ -392,4 +392,20 @@ public class Gang {
 		// Update value
 		info.put("invited", invited);
 	}
+	
+	/**
+	 * Set the allies of this gang
+	 * @param allies allies to set for the gang
+	 */
+	public void setAllies(List<String> allies) {
+		this.allies = allies;
+	}
+	
+	/**
+	 * Set the enemies of this gang
+	 * @param enemies enemies to set for the gang
+	 */
+	public void setEnemies(List<String> enemies) {
+		this.enemies = enemies;
+	}
 }
