@@ -112,6 +112,12 @@ public class ChatListener implements Listener {
 								pRecip)) {
 					// Player is not an ally and not a gang partner, thus may not receive the message
 
+					
+					// Do not remove the player that is talking
+					if (pRecip.getName().equals(player.getName())) {
+						continue;
+					}
+					
 					removeables.add(pRecip);
 				}
 			}
@@ -125,6 +131,11 @@ public class ChatListener implements Listener {
 						.isGangPartner(player, pRecip)) {
 					// Player is not a gang partner, thus may not receive the message
 
+					// Do not remove the player that is talking
+					if (pRecip.getName().equals(player.getName())) {
+						continue;
+					}
+					
 					removeables.add(pRecip);
 				}
 			}
