@@ -37,7 +37,7 @@ public class HelpCommand implements CommandExecutor {
 	}
 
 	private void showHelpPages(CommandSender sender, int page) {
-		final int maxPages = 4;
+		final int maxPages = 5;
 		if (page == 2) {
 			sender.sendMessage(ChatColor.GREEN + "-- PrisonGang Commands --");
 			sender.sendMessage(ChatColor.AQUA + "/gang set <arg> <value> "
@@ -75,6 +75,13 @@ public class HelpCommand implements CommandExecutor {
 					+ "- Uninvite a player from the gang");
 			sender.sendMessage(ChatColor.BLUE + "Page 3 of " + maxPages);
 		} else if (page == 4) {
+			sender.sendMessage(ChatColor.GREEN + "-- PrisonGang Commands --");
+			sender.sendMessage(ChatColor.AQUA + "/gang vote "
+					+ ChatColor.GRAY + "- Vote for a new leader.");
+			sender.sendMessage(ChatColor.AQUA + "/gang callvote "
+					+ ChatColor.GRAY + "- Call an election for a new leader.");
+			sender.sendMessage(ChatColor.BLUE + "Page 4 of " + maxPages);
+		} else if (page == 5) {
 			sender.sendMessage(ChatColor.GREEN + "-- PrisonGang Commands --");
 			sender.sendMessage(ChatColor.AQUA + "/gang admin remove <gang> "
 					+ ChatColor.GRAY + "- Remove a gang completely.");
