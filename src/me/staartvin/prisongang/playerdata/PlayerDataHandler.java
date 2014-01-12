@@ -169,6 +169,8 @@ public class PlayerDataHandler {
 		for (String gangName: oneGang.getAllies()) {
 			Gang gang = plugin.getGangHandler().getGang(gangName);
 			
+			if (gang == null) return false;
+			
 			for (String playerName: gang.getMembers()) {
 				if (playerName.equalsIgnoreCase(two.getName())) {
 					return true;
