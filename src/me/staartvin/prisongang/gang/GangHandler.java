@@ -257,6 +257,10 @@ public class GangHandler {
 		Config file = plugin.getGangDataFile();
 
 		FileConfiguration config = file.getConfig();
+		
+		// Do verify checks
+		doAllyVerify(gang);
+		doEnemyVerify(gang);
 
 		// Save individual items
 
@@ -277,6 +281,62 @@ public class GangHandler {
 
 		// Save config
 		file.saveConfig();
+	}
+	
+	/**
+	 * This will check what allies do no longer exist.
+	 * If they are deleted or unused, they will be removed from the allies list.
+	 * @param gang Gang that you want to check the allies for
+	 */
+	private void doAllyVerify(Gang gang) {
+		// Check if ally allies still exist.
+		// If an ally doesn't exist anymore, remove it from the list.
+		List<String> allies = gang.getAllies();
+		List<String> invalidAllies = new ArrayList<String>();
+		
+		// Check for every ally
+		for (String ally: allies) {
+			Gang allyGang = getGang(ally);
+			
+			if (allyGang == null) {
+				invalidAllies.add(ally);
+			}
+		}
+		
+		// Remove allies that are invalid
+		allies.removeAll(invalidAllies);
+		
+		// Update gang
+		gang.setAllies(allies);
+		
+	}
+	
+	/**
+	 * This will check what enemies do no longer exist.
+	 * If they are deleted or unused, they will be removed from the enemies list.
+	 * @param gang Gang that you want to check the enemies for
+	 */
+	private void doEnemyVerify(Gang gang) {
+		// Check if ally enemies still exist.
+		// If an enemy doesn't exist anymore, remove it from the list.
+		List<String> enemies = gang.getEnemies();
+		List<String> invalidEnemies = new ArrayList<String>();
+		
+		// Check for every enemy
+		for (String enemy: enemies) {
+			Gang enemyGang = getGang(enemy);
+			
+			if (enemyGang == null) {
+				invalidEnemies.add(enemy);
+			}
+		}
+		
+		// Remove enemies that are invalid
+		enemies.removeAll(invalidEnemies);
+		
+		// Update gang
+		gang.setEnemies(enemies);
+		
 	}
 
 	/**
