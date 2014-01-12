@@ -7,6 +7,9 @@ import java.util.Set;
 
 import me.staartvin.prisongang.PrisonGang;
 
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
 /**
  * This class represents one gang. When the server starts, all gangs from the
  * config are loaded into such class. Every gang has its own Gang class.
@@ -18,7 +21,6 @@ import me.staartvin.prisongang.PrisonGang;
  */
 public class Gang {
 
-	@SuppressWarnings("unused")
 	private PrisonGang plugin;
 
 	public Gang(PrisonGang instance, String gangName) {
@@ -113,14 +115,17 @@ public class Gang {
 		String arg = findArgument(argumentName);
 
 		if (arg == null) {
-			throw new IllegalArgumentException(argumentName + " is not a valid argument!");
+			throw new IllegalArgumentException(argumentName
+					+ " is not a valid argument!");
 		}
-		
+
 		String value;
-		
+
 		// Check if the info contains the key 'arg', is not null, is not equal to '' and is not equal to the string 'null'.
-		value = (info.containsKey(arg) && info.get(arg) != null && !info.get(arg).equals("") && !info.get(arg).equals("null")) ? info.get(arg) : null;
-		
+		value = (info.containsKey(arg) && info.get(arg) != null
+				&& !info.get(arg).equals("") && !info.get(arg).equals("null")) ? info
+				.get(arg) : null;
+
 		return value;
 	}
 
@@ -242,6 +247,7 @@ public class Gang {
 
 	/**
 	 * Get the title of the leader of this gang
+	 * 
 	 * @return title of the leader
 	 */
 	public String getLeadersTitle() {
@@ -250,162 +256,285 @@ public class Gang {
 
 	/**
 	 * Set the title a leader has for this gang
+	 * 
 	 * @param leadersTitle title to set it to
 	 */
 	public void setLeadersTitle(String leadersTitle) {
 		this.leadersTitle = leadersTitle;
 	}
-	
+
 	/**
 	 * Get all the info arguments that are saved
+	 * 
 	 * @return a list of arguments saved for this gang
 	 */
 	public Set<String> getInfoKeys() {
 		return info.keySet();
 	}
-	
+
 	/**
 	 * Check whether a certain gang is befriended with this gang.
+	 * 
 	 * @param gangName Gang name to check for
 	 * @return true if allies; false otherwise
 	 */
 	public boolean isAlly(String gangName) {
 		return allies.contains(gangName);
 	}
-	
+
 	/**
 	 * Check whether a certain gang is enemy of this gang.
+	 * 
 	 * @param gangName Gang name to check for
 	 * @return true if enemies; false otherwise
 	 */
 	public boolean isEnemy(String gangName) {
 		return enemies.contains(gangName);
 	}
-	
+
 	/**
 	 * Check whether a certain gang is neutral with this gang.
+	 * 
 	 * @param gangName Gang name to check for
 	 * @return true if neutral; false otherwise
 	 */
 	public boolean isNeutral(String gangName) {
 		return !isAlly(gangName) && !isEnemy(gangName);
 	}
-	
+
 	/**
 	 * Check whether this gang is a private gang.
 	 * A player can only join a private gang when he or she is invited.
+	 * 
 	 * @return true if private; false otherwise.
 	 */
 	public boolean isPrivate() {
-		return (info.containsKey("private") && info.get("private").equals("true"));
+		return (info.containsKey("private") && info.get("private").equals(
+				"true"));
 	}
-	
+
 	/**
 	 * Check whether a player is invited to this gang
+	 * 
 	 * @param playerName Name of the player to check
 	 * @return true if invited; false otherwise
 	 */
 	public boolean isInvited(String playerName) {
-		if (!info.containsKey("invited")) return false;
+		if (!info.containsKey("invited"))
+			return false;
 		// No invited players
-		
+
 		// Players are divided by commas (,)
 		List<String> invited = getInvited();
-		
+
 		// Check if the player is amongst the invited
-		for (String invite: invited) {
-			if (invite.equalsIgnoreCase(playerName)) return true;
+		for (String invite : invited) {
+			if (invite.equalsIgnoreCase(playerName))
+				return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Get a list of invited players for this gang
+	 * 
 	 * @return all players that are invited for this gang
 	 */
 	public List<String> getInvited() {
-		if (!info.containsKey("invited")) return new ArrayList<String>();
+		if (!info.containsKey("invited"))
+			return new ArrayList<String>();
 		// No invited players
-		
+
 		// Players are divided by commas (,)
 		List<String> invited = new ArrayList<String>();
-		
+
 		String invitedString = info.get("invited");
-		
+
 		// Invalid string
-		if (invitedString == null || !invitedString.contains(",")) return new ArrayList<String>();
-		
+		if (invitedString == null || !invitedString.contains(","))
+			return new ArrayList<String>();
+
 		String[] array = invitedString.split(",");
-		
-		for (String ar: array) {
+
+		for (String ar : array) {
 			invited.add(ar.trim());
 			// Populate invited list
 		}
-		
+
 		return invited;
 	}
-	
+
 	/**
 	 * Add a player to the 'invited' list.
-	 * If a gang is private, only players that are on the invited list can join the gang.
+	 * If a gang is private, only players that are on the invited list can join
+	 * the gang.
+	 * 
 	 * @param playerName Name of the player to add to the list
 	 */
 	public void invitePlayer(String playerName) {
 		// Player is already invited!
-		if (isInvited(playerName)) return;
-		
+		if (isInvited(playerName))
+			return;
+
 		String invited = null;
-		
+
 		if (!info.containsKey("invited")) {
 			invited = "";
 		} else {
 			invited = info.get("invited");
 		}
-		
+
 		invited = invited + playerName + ",";
-		
+
 		// Store new data
 		info.put("invited", invited);
 	}
-	
+
 	public void unInvitePlayer(String playerName) {
 		// If player is not invited, I cannot uninvite him/her!
-		if (!isInvited(playerName)) return;
-		
+		if (!isInvited(playerName))
+			return;
+
 		String invited = null;
-		
+
 		if (!info.containsKey("invited")) {
 			invited = "";
 		} else {
 			invited = info.get("invited");
 		}
-		
+
 		// Remove name from invited list (+ comma)
 		invited = invited.replace(playerName + ",", "").trim();
-		
+
 		// There are no invitees on the list, so it can be null
 		if (invited.equals("") || invited.equals("null")) {
 			info.remove(invited);
 		}
-		
+
 		// Update value
 		info.put("invited", invited);
 	}
-	
+
 	/**
 	 * Set the allies of this gang
+	 * 
 	 * @param allies allies to set for the gang
 	 */
 	public void setAllies(List<String> allies) {
 		this.allies = allies;
 	}
-	
+
 	/**
 	 * Set the enemies of this gang
+	 * 
 	 * @param enemies enemies to set for the gang
 	 */
 	public void setEnemies(List<String> enemies) {
 		this.enemies = enemies;
+	}
+
+	/**
+	 * Check if a player has voted for a new leader
+	 * 
+	 * @param playerName Name of the player to check for
+	 * @return true if the player has voted; false otherwise.
+	 */
+	public boolean hasVoted(String playerName) {
+		if (!info.containsKey("votes"))
+			return false;
+
+		String voted = info.get("votes");
+
+		// Invalid string
+		if (!voted.contains(","))
+			return false;
+
+		// First argument == time that vote started, rest of the args are votes.
+
+		String[] args = voted.split(",");
+
+		// Store a list of players that voted
+		List<String> players = new ArrayList<String>();
+
+		// Does not contain any players
+		if (args.length < 2)
+			return false;
+
+		for (int i = 0; i < args.length; i++) {
+			// First argument is the time the voted was called, so that is not a player
+			if (i == 0)
+				continue;
+
+			players.add(args[i]);
+		}
+
+		return players.contains(playerName);
+	}
+
+	/**
+	 * Check if there is an election in progress
+	 * 
+	 * @return true if it is; false otherwise.
+	 */
+	public boolean isVoteInProgress() {
+		if (!info.containsKey("votes"))
+			return false;
+
+		if (info.get("votes") == null)
+			return false;
+
+		if (info.get("votes").trim().equals(""))
+			return false;
+
+		return true;
+	}
+
+	/**
+	 * Let a player vote for the election
+	 * @param playerName Name of the player that will vote
+	 */
+	public void vote(String playerName) {
+		if (!isVoteInProgress())
+			return;
+
+		if (hasVoted(playerName))
+			return;
+
+		String voted = info.get("votes");
+
+		voted = voted + "," + playerName;
+		
+		info.put("votes", voted);
+	}
+	
+	/**
+	 * Broadcast a message to all online members of this gang.
+	 * @param message Message to broadcast
+	 */
+	public void broadcastMessage(String message) {
+		// Get all online players
+		for (String member: this.members) {
+			Player player = plugin.getServer().getPlayer(member);
+			
+			// Player is not online
+			if (player == null) continue;
+			
+			player.sendMessage(ChatColor.GOLD + "[Gang Message] " + ChatColor.GREEN + message);
+		}
+	}
+	
+	/**
+	 * Start the election for a new leader
+	 */
+	public void startElection() {
+		info.put("votes", System.currentTimeMillis() + "");
+	}
+	
+	/**
+	 * Stop the current running election
+	 */
+	public void stopElection() {
+		info.remove("votes");
 	}
 }
