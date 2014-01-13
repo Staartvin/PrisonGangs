@@ -492,6 +492,7 @@ public class Gang {
 
 	/**
 	 * Let a player vote for the election
+	 * 
 	 * @param playerName Name of the player that will vote
 	 */
 	public void vote(String playerName) {
@@ -504,37 +505,65 @@ public class Gang {
 		String voted = info.get("votes");
 
 		voted = voted + "," + playerName;
-		
+
 		info.put("votes", voted);
 	}
-	
+
 	/**
 	 * Broadcast a message to all online members of this gang.
+	 * 
 	 * @param message Message to broadcast
 	 */
 	public void broadcastMessage(String message) {
 		// Get all online players
-		for (String member: this.members) {
+		for (String member : this.members) {
 			Player player = plugin.getServer().getPlayer(member);
-			
+
 			// Player is not online
-			if (player == null) continue;
-			
-			player.sendMessage(ChatColor.GOLD + "[Gang Message] " + ChatColor.GREEN + message);
+			if (player == null)
+				continue;
+
+			player.sendMessage(ChatColor.GOLD + "[Gang Message] "
+					+ ChatColor.GREEN + message);
 		}
 	}
-	
+
 	/**
 	 * Start the election for a new leader
 	 */
 	public void startElection() {
 		info.put("votes", System.currentTimeMillis() + "");
 	}
-	
+
 	/**
 	 * Stop the current running election
 	 */
 	public void stopElection() {
 		info.remove("votes");
+	}
+
+	/**
+	 * Get the time (in milliseconds, since Jan 1st 1970) when the election was called.
+	 * @return time in milliseconds, negative if invalid.
+	 */
+	public long getElectionStartTime() {
+		if (!isVoteInProgress())
+			return -1;
+
+		// First argument == time that vote started, rest of the args are votes.
+
+		String voted = info.get("votes");
+		String[] args = voted.split(",");
+		
+		String timeInString = args[0];
+		long startTime = -1;
+		
+		try {
+			startTime = Long.parseLong(timeInString);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("VOTE TIME FOR GANG '" + this.gangName + "' IS INCORRECT!");
+		}
+		
+		return startTime;
 	}
 }

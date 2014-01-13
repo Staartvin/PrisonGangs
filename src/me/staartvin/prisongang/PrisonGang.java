@@ -12,6 +12,7 @@ import me.staartvin.prisongang.save.SaveGangDataTask;
 import me.staartvin.prisongang.save.SaveManager;
 import me.staartvin.prisongang.save.SavePlayerDataTask;
 import me.staartvin.prisongang.vault.VaultHandler;
+import me.staartvin.prisongang.voting.VotingCheckerTask;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -110,6 +111,10 @@ public class PrisonGang extends JavaPlugin {
 		// Run refresh task once for when the server is reloaded
 		getServer().getScheduler().runTask(this,
 				new RefreshPlayerDataTask(this));
+		
+		// Run task every hour to check for elections
+		getServer().getScheduler().runTaskTimer(this,
+				new VotingCheckerTask(this), 0L, 3600 * 20);
 	}
 
 	public Config getGangDataFile() {
