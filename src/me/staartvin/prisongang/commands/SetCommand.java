@@ -125,6 +125,9 @@ public class SetCommand implements CommandExecutor {
 				return true;
 			}
 			
+			// Remove leaders title from old leader
+			plugin.getPlayerDataHandler().getPlayerData(gang.getLeader(), true).setRankName(null);
+			
 			gang.setInfo("leader", value);
 			
 			plugin.getPlayerDataHandler().getPlayerData(value, false).setRankName(gang.getLeadersTitle());
