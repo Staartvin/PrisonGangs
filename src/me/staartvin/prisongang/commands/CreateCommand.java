@@ -64,11 +64,11 @@ public class CreateCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (containsColours(gangName)) {
-			sender.sendMessage(ChatColor.RED + "You cannot use formatting codes in the name!");
+		if (containsInvalidChars(gangName)) {
+			sender.sendMessage(ChatColor.RED + "You cannot use formatting codes or unicode symbols in the name!");
 			return true;
 		}
-
+		
 		gang = plugin.getGangHandler().getGangByLeader(sender.getName());
 
 		if (gang != null) {
@@ -97,6 +97,8 @@ public class CreateCommand implements CommandExecutor {
 				+ ChatColor.YELLOW + gangName + ChatColor.GREEN
 				+ "' has been created!");
 		
+		plugin.getServer().broadcastMessage(ChatColor.GREEN + "The new gang '" + ChatColor.GOLD + gangName + ChatColor.GREEN + "' of " + sender.getName() + " has arisen!");
+		
 		return true;
 	}
 	
@@ -105,6 +107,25 @@ public class CreateCommand implements CommandExecutor {
 		
 		for (String code: codes) {
 			if (text.contains(code)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private boolean containsInvalidChars(String text) {
+		if (containsColours(text)) return true;
+		
+		for (char c: text.toCharArray()) {
+			
+			int ci = c;
+			
+			//System.out.print(ci);
+			
+			// Invalid unicode chars (see http://en.wikipedia.org/wiki/Miscellaneous_Symbols and http://www.ssec.wisc.edu/~tomw/java/unicode.html#x0000)
+			// Valid are: [a-z][A-Z][0-9][-& ]
+			if (ci != 32 && ci != 45 && ci != 38 && !(ci >= 48 && ci <= 59) && !(ci >= 65 && ci <= 90) && !(ci >= 97 && ci <= 122)) {
 				return true;
 			}
 		}
