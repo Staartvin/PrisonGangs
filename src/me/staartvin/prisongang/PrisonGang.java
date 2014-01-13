@@ -11,6 +11,7 @@ import me.staartvin.prisongang.playerdata.RefreshPlayerDataTask;
 import me.staartvin.prisongang.save.SaveGangDataTask;
 import me.staartvin.prisongang.save.SaveManager;
 import me.staartvin.prisongang.save.SavePlayerDataTask;
+import me.staartvin.prisongang.translation.Lang;
 import me.staartvin.prisongang.vault.VaultHandler;
 import me.staartvin.prisongang.voting.VotingCheckerTask;
 
@@ -20,15 +21,17 @@ public class PrisonGang extends JavaPlugin {
 
 	private Config gangDataFile = new Config(this, "", "gangs.yml");
 	private Config playerDataFile = new Config(this, "", "playerdata.yml");
+	private Config messagesFile = new Config(this, "", "messages.yml");
 
 	private PlayerDataHandler playerDataHandler = new PlayerDataHandler(this);
 	private GangHandler gangHandler = new GangHandler(this);
 	private SaveManager saveManager = new SaveManager(this);
 	private Commands commands = new Commands(this);
 	private PermissionsManager permManager = new PermissionsManager(this);
-	
+
 	private VaultHandler vaultHandler;
 
+	// TODO implement messages.yml
 	public void onEnable() {
 		gangDataFile
 				.createNewFile(
@@ -44,6 +47,12 @@ public class PrisonGang extends JavaPlugin {
 								+ "You do not have to edit this manually. \nThese settings will be changed by the plugin automatically."
 								+ "\nEditing any data in here manually will void warranty of a working plugin.");
 
+		messagesFile.createNewFile("Message have been loaded!",
+				"You can change all messages here to your liking");
+		
+		// Load messages
+		loadMessages();
+
 		// Load player and gang data
 		getLogger().info(gangHandler.loadGangsFromConfig() + " gangs loaded!");
 
@@ -55,11 +64,11 @@ public class PrisonGang extends JavaPlugin {
 
 		// Register gang command
 		getCommand("prisongang").setExecutor(commands);
-		
+
 		// Check for Vault
 		if (getServer().getPluginManager().getPlugin("Vault") != null) {
 			vaultHandler = new VaultHandler(this);
-			
+
 		}
 
 		getLogger().info(
@@ -83,6 +92,10 @@ public class PrisonGang extends JavaPlugin {
 		playerDataFile.reloadConfig();
 		playerDataFile.saveConfig();
 
+		// Save messages
+		messagesFile.reloadConfig();
+		messagesFile.saveConfig();
+
 		// Stop all tasks running or scheduled
 		getServer().getScheduler().cancelTasks(this);
 
@@ -100,6 +113,20 @@ public class PrisonGang extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new ChatListener(this),
 				this);
 	}
+	
+	private void loadMessages() {
+		messagesFile.reloadConfig();
+		messagesFile.saveConfig();
+
+		Lang.setFile(messagesFile.getConfig());
+
+		for (final Lang value : Lang.values()) {
+			messagesFile.getConfig().addDefault(value.getPath(), value.getDefault());
+		}
+
+		messagesFile.getConfig().options().copyDefaults(true);
+		messagesFile.saveConfig();
+	}
 
 	private void startTasks() {
 		// Run the save tasks each minute
@@ -111,7 +138,7 @@ public class PrisonGang extends JavaPlugin {
 		// Run refresh task once for when the server is reloaded
 		getServer().getScheduler().runTask(this,
 				new RefreshPlayerDataTask(this));
-		
+
 		// Run task every hour to check for elections
 		getServer().getScheduler().runTaskTimer(this,
 				new VotingCheckerTask(this), 0L, 3600 * 20);
@@ -144,7 +171,7 @@ public class PrisonGang extends JavaPlugin {
 	public PermissionsManager getPermissionsManager() {
 		return permManager;
 	}
-	
+
 	public VaultHandler getVaultHandler() {
 		return vaultHandler;
 	}
