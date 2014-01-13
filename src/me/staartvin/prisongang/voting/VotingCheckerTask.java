@@ -47,6 +47,26 @@ public class VotingCheckerTask extends BukkitRunnable {
 			}
 			
 			// Time has passed.
+			// Check if we have more than 50% of the votes
+			
+			int memberCount = gang.getMembers().size();
+			
+			int halfCount = (int) Math.floor(memberCount / 2);
+			
+			// You need half of the count + 1 extra
+			
+			List<String> voted = gang.getVotes();
+			
+			if (voted == null) {
+				continue;
+			}
+			
+			// Not enough votes
+			if (voted.size() < (halfCount + 1)) {
+				continue;
+			}
+			
+			// Enough time has passed and enough votes have been required.
 			// Stop election
 			// Find a new leader
 			
