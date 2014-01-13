@@ -70,7 +70,7 @@ public class DisbandCommand implements CommandExecutor {
 		player.resetAbilities();
 
 		// Notice everyone
-		plugin.getServer().broadcastMessage(ChatColor.YELLOW + "Gang '" + gang.getGangName() + "' was disbanded!");
+		plugin.getServer().broadcastMessage(ChatColor.GREEN + "Gang '" + ChatColor.GOLD + gang.getGangName() + ChatColor.GREEN + "' has fallen!");
 
 		// Remove gang
 		plugin.getGangHandler().deleteGang(gang.getGangName());
