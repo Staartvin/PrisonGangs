@@ -441,35 +441,9 @@ public class Gang {
 	 * @return true if the player has voted; false otherwise.
 	 */
 	public boolean hasVoted(String playerName) {
-		if (!info.containsKey("votes"))
-			return false;
-
-		String voted = info.get("votes");
-
-		// Invalid string
-		if (!voted.contains(","))
-			return false;
-
-		// First argument == time that vote started, rest of the args are votes.
-
-		String[] args = voted.split(",");
-
-		// Store a list of players that voted
-		List<String> players = new ArrayList<String>();
-
-		// Does not contain any players
-		if (args.length < 2)
-			return false;
-
-		for (int i = 0; i < args.length; i++) {
-			// First argument is the time the voted was called, so that is not a player
-			if (i == 0)
-				continue;
-
-			players.add(args[i]);
-		}
-
-		return players.contains(playerName);
+		List<String> votes = getVotes();
+		
+		return votes != null && votes.contains(playerName);
 	}
 
 	/**
@@ -565,5 +539,37 @@ public class Gang {
 		}
 		
 		return startTime;
+	}
+	
+	public List<String> getVotes() {
+		if (!info.containsKey("votes"))
+			return null;
+
+		String voted = info.get("votes");
+
+		// Invalid string
+		if (!voted.contains(","))
+			return null;
+
+		// First argument == time that vote started, rest of the args are votes.
+
+		String[] args = voted.split(",");
+
+		// Store a list of players that voted
+		List<String> players = new ArrayList<String>();
+
+		// Does not contain any players
+		if (args.length < 2)
+			return null;
+
+		for (int i = 0; i < args.length; i++) {
+			// First argument is the time the voted was called, so that is not a player
+			if (i == 0)
+				continue;
+
+			players.add(args[i]);
+		}
+
+		return players;
 	}
 }
