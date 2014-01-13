@@ -68,7 +68,7 @@ public class Commands implements CommandExecutor {
 		callVote = new CallVoteCommand(instance);
 	}
 	
-	public static String[] allowedSetArgs = {"desc", "leader", "private"};
+	public static String[] allowedSetArgs = {"desc", "leader", "private", "leaderTitle"};
 	
 	// Stores chat mode of player. (global, ally only, gang only)
 	public HashMap<String, String> chatMode = new HashMap<String, String>();
