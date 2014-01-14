@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import me.staartvin.prisongang.PrisonGang;
-import me.staartvin.prisongang.config.Config;
+import me.staartvin.prisongang.config.ConfigWrapper;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.permissions.GangAbility;
 
@@ -93,7 +93,7 @@ public class PlayerDataHandler {
 		if (data == null)
 			return;
 
-		Config file = plugin.getPlayerDataFile();
+		ConfigWrapper file = plugin.getPlayerDataFile();
 
 		FileConfiguration config = file.getConfig();
 
@@ -128,7 +128,7 @@ public class PlayerDataHandler {
 
 		PlayerData data = new PlayerData(playerName);
 
-		Config file = plugin.getPlayerDataFile();
+		ConfigWrapper file = plugin.getPlayerDataFile();
 
 		FileConfiguration config = file.getConfig();
 
