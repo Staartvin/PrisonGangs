@@ -240,6 +240,10 @@ public enum Lang {
 	 * You cannot join {0}, it is full.
 	 */
 	GANG_IS_FULL("gang-is-full", "&4You cannot join &6{0}&4, it is full."),
+	/**
+	 * This message is invalid.
+	 */
+	INVALID_BROADCAST_MESSAGE("invalid-broadcast-message", "&4This message is invalid."),
 	
 	
 	

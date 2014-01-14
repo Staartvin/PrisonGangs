@@ -38,6 +38,7 @@ public class Commands implements CommandExecutor {
 	private UnInviteCommand unInvite;
 	private VoteCommand vote;
 	private CallVoteCommand callVote;
+	private GangBroadcastCommand broadcast;
 
 	public Commands(PrisonGang instance) {
 		plugin = instance;
@@ -66,6 +67,7 @@ public class Commands implements CommandExecutor {
 		unInvite = new UnInviteCommand(instance);
 		vote = new VoteCommand(instance);
 		callVote = new CallVoteCommand(instance);
+		broadcast = new GangBroadcastCommand(instance);
 	}
 	
 	public static String[] allowedSetArgs = {"desc", "leader", "private", "leaderTitle"};
@@ -155,6 +157,8 @@ public class Commands implements CommandExecutor {
 			return vote.onCommand(sender, command, label, args);
 		} else if (args[0].equalsIgnoreCase("callvote")) {
 			return callVote.onCommand(sender, command, label, args);
+		}  else if (args[0].equalsIgnoreCase("broadcast")) {
+			return broadcast.onCommand(sender, command, label, args);
 		}
 
 		sender.sendMessage(ChatColor.RED + "Invalid command.");
