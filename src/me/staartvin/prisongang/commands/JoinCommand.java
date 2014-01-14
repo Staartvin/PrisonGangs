@@ -74,6 +74,11 @@ public class JoinCommand implements CommandExecutor {
 		if (!plugin.getCommands().hasPermission(sender, "prisongang.join"))
 			return true;
 
+		if (gang.isFull()) {
+			sender.sendMessage(Lang.GANG_IS_FULL.getConfigValue(new String[] {gang.getGangName()}));
+			return true;
+		}
+		
 		// Check whether the gang is private and if so if the player is invited
 		if (gang.isPrivate()) {
 			if (!gang.isInvited(sender.getName())) {
