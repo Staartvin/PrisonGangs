@@ -232,6 +232,10 @@ public enum Lang {
 	 * {0} voted for a new leader!
 	 */
 	PLAYER_VOTED_BROADCAST("player-voted-broadcast", "&6{0}&a voted for a new leader!"),
+	/**
+	 * {0} is now the new leader of {1}!
+	 */
+	PLAYER_IS_NEW_LEADER("player-is-new-leader", "&6{0}&a is now the new leader of &6{1}&a!"),
 	
 	
 	

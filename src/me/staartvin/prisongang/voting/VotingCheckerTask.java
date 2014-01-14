@@ -6,8 +6,8 @@ import java.util.Random;
 import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
-import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class VotingCheckerTask extends BukkitRunnable {
@@ -107,7 +107,7 @@ public class VotingCheckerTask extends BukkitRunnable {
 				newLeader.setRankName(gang.getLeadersTitle());
 
 				// Broadcast through server
-				plugin.getServer().broadcastMessage(ChatColor.GOLD + member + ChatColor.GREEN + " is now the new leader of " + ChatColor.GOLD + gang.getGangName());
+				plugin.getServer().broadcastMessage(Lang.PLAYER_IS_NEW_LEADER.getConfigValue(new String[] {member, gang.getGangName()}));
 				
 				foundNewLeader = true;
 				
