@@ -236,6 +236,10 @@ public enum Lang {
 	 * {0} is now the new leader of {1}!
 	 */
 	PLAYER_IS_NEW_LEADER("player-is-new-leader", "&6{0}&a is now the new leader of &6{1}&a!"),
+	/**
+	 * You cannot join {0}, it is full.
+	 */
+	GANG_IS_FULL("gang-is-full", "&4You cannot join &6{0}&4, it is full."),
 	
 	
 	
