@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import me.staartvin.prisongang.PrisonGang;
-import me.staartvin.prisongang.config.Config;
+import me.staartvin.prisongang.config.ConfigWrapper;
 import me.staartvin.prisongang.playerdata.PlayerData;
 
 import org.bukkit.configuration.ConfigurationSection;
@@ -123,7 +123,7 @@ public class GangHandler {
 			return getGang(gangName);
 		}
 
-		Config file = plugin.getGangDataFile();
+		ConfigWrapper file = plugin.getGangDataFile();
 
 		FileConfiguration config = file.getConfig();
 
@@ -254,7 +254,7 @@ public class GangHandler {
 		if (gang == null)
 			return;
 
-		Config file = plugin.getGangDataFile();
+		ConfigWrapper file = plugin.getGangDataFile();
 
 		FileConfiguration config = file.getConfig();
 		
