@@ -80,6 +80,8 @@ public class HelpCommand implements CommandExecutor {
 					+ ChatColor.GRAY + "- Vote for a new leader.");
 			sender.sendMessage(ChatColor.AQUA + "/gang callvote "
 					+ ChatColor.GRAY + "- Call an election for a new leader.");
+			sender.sendMessage(ChatColor.AQUA + "/gang broadcast <message> "
+					+ ChatColor.GRAY + "- Broadcast a message to all players of your gang.");
 			sender.sendMessage(ChatColor.BLUE + "Page 4 of " + maxPages);
 		} else if (page == 5) {
 			sender.sendMessage(ChatColor.GREEN + "-- PrisonGang Commands --");
