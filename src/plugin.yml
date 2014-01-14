@@ -2,15 +2,17 @@ name: PrisonGang
 author: Staartvin
 website: http://dev.bukkit.org/server-mods/prisongang/
 main: me.staartvin.prisongang.PrisonGang
-version: ALPHA 1.0
+version: 1.0
 description: An advanced, yet simple gangs plugin for prisons.
-depend: [Vault]
 permissions:
     prisongang.create:
-        description: Allows a player to create a gan
-        default: false
-    prisongang.save:
+        description: Allows a player to create a gang
+        default: op
+    prisongang.admin.save:
         description: Allows a player to request a manual save
+        default: op
+    prisongang.admin.remove:
+        description: Allows a player to remove a gang forcefully.
         default: op
 commands:
     prisongang:
