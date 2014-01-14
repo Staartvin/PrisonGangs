@@ -1,4 +1,4 @@
-package me.staartvin.prisongang.commands;
+package me.staartvin.prisongang.commands.admin;
 
 import me.staartvin.prisongang.PrisonGang;
 

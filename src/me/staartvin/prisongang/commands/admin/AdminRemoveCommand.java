@@ -1,4 +1,4 @@
-package me.staartvin.prisongang.commands;
+package me.staartvin.prisongang.commands.admin;
 
 import java.util.ArrayList;
 import java.util.List;
