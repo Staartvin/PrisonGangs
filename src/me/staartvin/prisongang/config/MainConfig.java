@@ -45,6 +45,10 @@ public class MainConfig {
 		
 		config.addDefault("gangs.max players", 10);
 		
+		config.addDefault("logger.log verbose", true);
+		
+		config.addDefault("logger.debug", false);
+		
 		config.options().copyDefaults(true);
 		
 		configWrapper.saveConfig();
@@ -72,5 +76,13 @@ public class MainConfig {
 	public int getMaxPlayers() {
 		// if a negative number return a big number.
 		return config.getInt("gangs.max players", 10) > 0 ? config.getInt("gangs.max players", 10) : 999999;
+	} 
+	
+	public boolean doLogVerbose() {
+		return config.getBoolean("logger.log verbose", true);
+	}
+	
+	public boolean doDebug() {
+		return config.getBoolean("logger.debug", false);
 	}
 }
