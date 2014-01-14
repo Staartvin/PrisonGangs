@@ -89,7 +89,7 @@ public class HelpCommand implements CommandExecutor {
 					+ ChatColor.GRAY + "- Remove a gang completely.");
 			sender.sendMessage(ChatColor.AQUA + "/gang admin save "
 					+ ChatColor.GRAY + "- Request a manual save of all files.");
-			sender.sendMessage(ChatColor.BLUE + "Page 4 of " + maxPages);
+			sender.sendMessage(ChatColor.BLUE + "Page 5 of " + maxPages);
 		} else {
 			sender.sendMessage(ChatColor.GREEN + "-- PrisonGang Commands --");
 			sender.sendMessage(ChatColor.AQUA + "/gang help (page) "
