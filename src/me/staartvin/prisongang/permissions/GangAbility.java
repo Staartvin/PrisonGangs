@@ -13,7 +13,8 @@ public enum GangAbility {
 	REMOVE_ABILITY("Allow to remove an ability from a player"),
 	SET_PRIVATE("Allow to set the gang private"),
 	INVITE_PLAYERS("Allow to invite players to the gang"),
-	UNINVITE_PLAYERS("Allow to uninvite players from the gang")
+	UNINVITE_PLAYERS("Allow to uninvite players from the gang"),
+	BROADCAST("Allow to broadcast messages in the gang")
 	;
 	
 	private String desc;
