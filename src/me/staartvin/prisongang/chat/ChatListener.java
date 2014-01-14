@@ -23,13 +23,9 @@ public class ChatListener implements Listener {
 		plugin = instance;
 	}
 
-	public String gang_chat_prefix = "{PRISONGANG_GANG}";
-	public String title_chat_prefix = "{PRISONGANG_TITLE}";
-	public String chatmode_prefix = "{PRISONGANG_CHATMODE}";
-
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
-
+		
 		Player player = event.getPlayer();
 		PlayerData data = plugin.getPlayerDataHandler().getPlayerData(
 				player.getName(), true);
@@ -44,9 +40,9 @@ public class ChatListener implements Listener {
 		// Always global when not in a gang
 		if (!data.isInGang()) {
 			// Remove the prisongang tag
-			format = format.replace(gang_chat_prefix, "")
-					.replace(title_chat_prefix, "")
-					.replace(chatmode_prefix, "");
+			format = format.replace(plugin.gang_chat_prefix, "")
+					.replace(plugin.title_chat_prefix, "")
+					.replace(plugin.chatmode_prefix, "");
 
 			// Set new format without the extra spaces
 			event.setFormat(removeExtraSpaces(format));
@@ -82,9 +78,9 @@ public class ChatListener implements Listener {
 				: "";
 
 		// Change format
-		format = format.replace(gang_chat_prefix, gang.getGangName())
-				.replace(title_chat_prefix, rankName)
-				.replace(chatmode_prefix, chatModeName);
+		format = format.replace(plugin.gang_chat_prefix, gang.getGangName())
+				.replace(plugin.title_chat_prefix, rankName)
+				.replace(plugin.chatmode_prefix, chatModeName);
 		
 		// Remove double spaces
 		format = format.replaceAll("\\s+", " ");
