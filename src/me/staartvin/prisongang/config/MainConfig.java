@@ -39,9 +39,9 @@ public class MainConfig {
 
 		// Config all options for main config here
 
-		config.addDefault("chat.gang prefix", "{PRISONGANG_GANG}");
-		config.addDefault("chat.title prefix", "{PRISONGANG_TITLE}");
-		config.addDefault("chat.chatmode prefix", "{PRISONGANG_CHATMODE}");
+		config.addDefault("chat.gang prefix", "&7(&2%gang%&7)&r");
+		config.addDefault("chat.title prefix", "&7[&4%title%&7]&r");
+		config.addDefault("chat.chatmode prefix", "[&6%chatmode%&r]");
 		
 		config.addDefault("gangs.max players", 10);
 		
@@ -52,6 +52,9 @@ public class MainConfig {
 		config.options().copyDefaults(true);
 		
 		configWrapper.saveConfig();
+		
+		// Load main config
+		loadMainConfig();
 	}
 	
 	public void loadMainConfig() {
