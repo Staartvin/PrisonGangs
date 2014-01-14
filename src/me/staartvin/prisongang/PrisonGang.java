@@ -2,7 +2,8 @@ package me.staartvin.prisongang;
 
 import me.staartvin.prisongang.chat.ChatListener;
 import me.staartvin.prisongang.commands.Commands;
-import me.staartvin.prisongang.config.Config;
+import me.staartvin.prisongang.config.ConfigWrapper;
+import me.staartvin.prisongang.config.MainConfig;
 import me.staartvin.prisongang.gang.GangHandler;
 import me.staartvin.prisongang.listeners.PlayerJoinListener;
 import me.staartvin.prisongang.permissions.PermissionsManager;
@@ -19,15 +20,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PrisonGang extends JavaPlugin {
 
-	private Config gangDataFile = new Config(this, "", "gangs.yml");
-	private Config playerDataFile = new Config(this, "", "playerdata.yml");
-	private Config messagesFile = new Config(this, "", "messages.yml");
+	private ConfigWrapper gangDataFile = new ConfigWrapper(this, "/data", "gangs.yml");
+	private ConfigWrapper playerDataFile = new ConfigWrapper(this, "/data", "playerdata.yml");
+	private ConfigWrapper messagesFile = new ConfigWrapper(this, "", "messages.yml");
+	private ConfigWrapper mainConfigFile = new ConfigWrapper(this, "", "config.yml");
 
 	private PlayerDataHandler playerDataHandler = new PlayerDataHandler(this);
 	private GangHandler gangHandler = new GangHandler(this);
 	private SaveManager saveManager = new SaveManager(this);
 	private Commands commands = new Commands(this);
 	private PermissionsManager permManager = new PermissionsManager(this);
+	private MainConfig mainConfigHandler = new MainConfig(this);
+	
+	public String gang_chat_prefix = "{PRISONGANG_GANG}";
+	public String title_chat_prefix = "{PRISONGANG_TITLE}";
+	public String chatmode_prefix = "{PRISONGANG_CHATMODE}";
 
 	private VaultHandler vaultHandler;
 
@@ -49,6 +56,11 @@ public class PrisonGang extends JavaPlugin {
 
 		messagesFile.createNewFile("Messages have been loaded!",
 				"You can change all messages here to your liking");
+		
+		mainConfigFile.createNewFile("Main config file has been loaded!", "All the settings can be changed here.");
+		
+		// Setup main config
+		mainConfigHandler.setupMainConfig();
 		
 		// Load messages
 		loadMessages();
@@ -95,6 +107,10 @@ public class PrisonGang extends JavaPlugin {
 		// Save messages
 		messagesFile.reloadConfig();
 		messagesFile.saveConfig();
+		
+		// Save main config
+		mainConfigFile.reloadConfig();
+		mainConfigFile.saveConfig();
 
 		// Stop all tasks running or scheduled
 		getServer().getScheduler().cancelTasks(this);
@@ -115,9 +131,6 @@ public class PrisonGang extends JavaPlugin {
 	}
 	
 	private void loadMessages() {
-		messagesFile.reloadConfig();
-		messagesFile.saveConfig();
-
 		Lang.setFile(messagesFile.getConfig());
 
 		for (final Lang value : Lang.values()) {
@@ -144,11 +157,11 @@ public class PrisonGang extends JavaPlugin {
 				new VotingCheckerTask(this), 0L, 3600 * 20);
 	}
 
-	public Config getGangDataFile() {
+	public ConfigWrapper getGangDataFile() {
 		return gangDataFile;
 	}
 
-	public Config getPlayerDataFile() {
+	public ConfigWrapper getPlayerDataFile() {
 		return playerDataFile;
 	}
 
@@ -174,5 +187,13 @@ public class PrisonGang extends JavaPlugin {
 
 	public VaultHandler getVaultHandler() {
 		return vaultHandler;
+	}
+
+	public ConfigWrapper getMainConfigFile() {
+		return mainConfigFile;
+	}
+
+	public MainConfig getMainConfig() {
+		return mainConfigHandler;
 	}
 }
