@@ -541,6 +541,10 @@ public class Gang {
 		return startTime;
 	}
 	
+	/**
+	 * Get all players that voted.
+	 * @return a list of player that voted; null if error.
+	 */
 	public List<String> getVotes() {
 		if (!info.containsKey("votes"))
 			return null;
@@ -571,5 +575,13 @@ public class Gang {
 		}
 
 		return players;
+	}
+	
+	/**
+	 * Check whether this group is full and cannot accept any more new members
+	 * @return true if full; false otherwise.
+	 */
+	public boolean isFull() {
+		return members.size() >= plugin.getMainConfig().getMaxPlayers();
 	}
 }
