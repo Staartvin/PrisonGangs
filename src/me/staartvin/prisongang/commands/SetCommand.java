@@ -7,6 +7,7 @@ import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.permissions.GangAbility;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -50,21 +51,21 @@ public class SetCommand implements CommandExecutor {
 		}
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "Only players can set arguments!");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
 
 		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (!player.isInGang()) {
-			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
+			sender.sendMessage(Lang.NOT_IN_A_GANG.getConfigValue(null));
 			return true;
 		}
 
 		gang = plugin.getGangHandler().getGang(player.getGangName());
 
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "There is no such gang!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 
@@ -90,7 +91,7 @@ public class SetCommand implements CommandExecutor {
 		if (argument.equals("desc")) {
 			
 			if (!plugin.getPermissionsManager().hasAbility(sender, GangAbility.CHANGE_DESC)) {
-				sender.sendMessage(ChatColor.RED + "You are not authorised to change the description!");
+				sender.sendMessage(Lang.NOT_AUTHORISED.getConfigValue(null));
 				return true;
 			}
 			
@@ -102,7 +103,7 @@ public class SetCommand implements CommandExecutor {
 			// Set the leader of the group
 			
 			if (!plugin.getPermissionsManager().hasAbility(sender, GangAbility.SET_LEADER)) {
-				sender.sendMessage(ChatColor.RED + "You are not authorised to set the leader!");
+				sender.sendMessage(Lang.NOT_AUTHORISED.getConfigValue(null));
 				return true;
 			}
 			
@@ -114,7 +115,7 @@ public class SetCommand implements CommandExecutor {
 			Player target = plugin.getServer().getPlayer(value);
 			
 			if (target == null) {
-				sender.sendMessage(ChatColor.RED + "That player is not online!");
+				sender.sendMessage(Lang.PLAYER_NOT_ONLINE.getConfigValue(new String[] {value}));
 				return true;
 			}
 			
@@ -141,7 +142,7 @@ public class SetCommand implements CommandExecutor {
 			// Set to private mode or not
 			
 			if (!plugin.getPermissionsManager().hasAbility(sender, GangAbility.SET_PRIVATE)) {
-				sender.sendMessage(ChatColor.RED + "You are not authorised to make this gang private!");
+				sender.sendMessage(Lang.NOT_AUTHORISED.getConfigValue(null));
 				return true;
 			}
 			
@@ -150,7 +151,7 @@ public class SetCommand implements CommandExecutor {
 			// Set private value in the gang
 			gang.setInfo("private", bool + "");
 			
-			sender.sendMessage(ChatColor.GREEN + "Switched private mode to " + bool);
+			sender.sendMessage(Lang.CHANGED_PRIVATE_MODE.getConfigValue(new String[] {bool + ""}));
 		} else {
 			sender.sendMessage(ChatColor.RED + "UNKNOWN ARGUMENT!");
 		}

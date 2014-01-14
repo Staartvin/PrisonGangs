@@ -6,6 +6,7 @@ import java.util.List;
 import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -49,7 +50,7 @@ public class InfoCommand implements CommandExecutor {
 			gangName = plugin.getCommands().getFullString(newArgs);
 		} else {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.RED + "Please provide a gang!");
+				sender.sendMessage(Lang.PLEASE_PROVIDE_GANG.getConfigValue(null));
 				return true;
 			}
 
@@ -57,7 +58,7 @@ public class InfoCommand implements CommandExecutor {
 					sender.getName(), false);
 
 			if (!player.isInGang()) {
-				sender.sendMessage(ChatColor.RED + "Please provide a gang!");
+				sender.sendMessage(Lang.PLEASE_PROVIDE_GANG.getConfigValue(null));
 				return true;
 			}
 
@@ -71,7 +72,7 @@ public class InfoCommand implements CommandExecutor {
 		Gang gang = plugin.getGangHandler().getGang(gangName);
 		
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "Gang '" + gangName + "' doesn't exist!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 		

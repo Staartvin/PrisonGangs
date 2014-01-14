@@ -3,6 +3,7 @@ package me.staartvin.prisongang.commands;
 import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -34,21 +35,21 @@ public class LeaveCommand implements CommandExecutor {
 
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "You are not in a gang!");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
 
 		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (!player.isInGang()) {
-			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
+			sender.sendMessage(Lang.NOT_IN_A_GANG.getConfigValue(null));
 			return true;
 		}
 		
 		gang = plugin.getGangHandler().getGang(player.getGangName());
 		
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "Your gang doesn't exist?!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 
@@ -56,7 +57,7 @@ public class LeaveCommand implements CommandExecutor {
 			return true;
 
 		if (sender.getName().equalsIgnoreCase(gang.getLeader())) {
-			sender.sendMessage(ChatColor.RED + "You cannot leave your gang! To delete your gang, do /gang disband.");
+			sender.sendMessage(Lang.YOU_CANNOT_LEAVE_BECAUSE_LEADER.getConfigValue(null));
 			return true;
 		}
 		
@@ -69,7 +70,7 @@ public class LeaveCommand implements CommandExecutor {
 		// Reset abilities
 		player.resetAbilities();
 		
-		sender.sendMessage(ChatColor.GREEN + "You successfully left '" + gang.getGangName() + "'!");
+		sender.sendMessage(Lang.LEFT_GANG.getConfigValue(new String[] {gang.getGangName()}));
 		
 
 		return true;

@@ -4,6 +4,7 @@ import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.permissions.GangAbility;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -34,32 +35,32 @@ public class UnInviteCommand implements CommandExecutor {
 		Gang gang;
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "Only players can uninvite players!");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
 
 		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (!player.isInGang()) {
-			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
+			sender.sendMessage(Lang.NOT_IN_A_GANG.getConfigValue(null));
 			return true;
 		}
 		
 		gang = plugin.getGangHandler().getGang(player.getGangName());
 		
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "There is no such gang!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 
 		if (!plugin.getPermissionsManager().hasAbility(sender, GangAbility.UNINVITE_PLAYERS)) {
-			sender.sendMessage(ChatColor.RED + "You are not authorised to uninvite others!");
+			sender.sendMessage(Lang.NOT_AUTHORISED.getConfigValue(null));
 			return true;
 		}
 
 		// Check whether the gang is private
 		if (!gang.isPrivate()) {
-			sender.sendMessage(ChatColor.RED + "This is not a private gang and therefore anybody can join!");
+			sender.sendMessage(Lang.NOT_A_PRIVATE_GANG_ANYONE_CAN_JOIN.getConfigValue(null));
 			return true;
 		}
 		
@@ -67,23 +68,23 @@ public class UnInviteCommand implements CommandExecutor {
 		
 		// Check if the player is online
 		if (target == null) {
-			sender.sendMessage(ChatColor.RED + args[1] + " is not online!");
+			sender.sendMessage(Lang.PLAYER_NOT_ONLINE.getConfigValue(new String[] {args[1]}));
 			return true;
 		}
 		
 		// Target is already invited
 		if (!gang.isInvited(target.getName())) {
-			sender.sendMessage(ChatColor.RED + "This player is not invited!");
+			sender.sendMessage(Lang.PLAYER_NOT_INVITED.getConfigValue(new String[] {target.getName()}));
 			return true;
 		}
 		
 		gang.unInvitePlayer(target.getName());
 		
 		// Notify player
-		sender.sendMessage(ChatColor.GREEN + target.getName() + " has been uninvited from the gang!");
+		sender.sendMessage(Lang.PLAYER_NO_LONGER_INVITED.getConfigValue(new String[] {target.getName()}));
 		
 		// Notify invitee
-		target.sendMessage(ChatColor.GREEN + "You have been uninvited from " + ChatColor.GOLD + gang.getGangName() + ChatColor.GREEN + " by " + ChatColor.GOLD + sender.getName());
+		target.sendMessage(Lang.YOU_ARE_NO_LONGER_INVITED.getConfigValue(new String[] {gang.getGangName()}));
 		
 		return true;
 	}

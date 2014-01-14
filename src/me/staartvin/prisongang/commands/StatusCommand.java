@@ -7,6 +7,7 @@ import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.permissions.GangAbility;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -49,19 +50,19 @@ public class StatusCommand implements CommandExecutor {
 		}
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "Only players can set the status of two gangs!");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
 
 		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (targetGang == null) {
-			sender.sendMessage(ChatColor.RED + "There is no gang with that name!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 
 		if (!player.isInGang()) {
-			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
+			sender.sendMessage(Lang.NOT_IN_A_GANG.getConfigValue(null));
 			return true;
 		}
 		
@@ -72,24 +73,24 @@ public class StatusCommand implements CommandExecutor {
 		}*/
 		
 		if (!plugin.getPermissionsManager().hasAbility(sender, GangAbility.CHANGE_STATUS)) {
-			sender.sendMessage(ChatColor.RED + "You are not authorised to change the status!");
+			sender.sendMessage(Lang.NOT_AUTHORISED.getConfigValue(null));
 			return true;
 		}
 		
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "There is no such gang!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 		
 		if (gang.getGangName().equals(targetGang.getGangName())) {
-			sender.sendMessage(ChatColor.RED + "You cannot target your own gang!");
+			sender.sendMessage(Lang.CANNOT_TARGET_OWN_GANG.getConfigValue(null));
 			return true;
 		}
 
 		if (status.equalsIgnoreCase("neutral")) {
 			// Not enemies nor allies
 			if (gang.isNeutral(targetGang.getGangName())) {
-				sender.sendMessage(ChatColor.RED + "You and " + targetGang.getGangName() + " are already neutral.");
+				sender.sendMessage(Lang.ALREADY_STATUS.getConfigValue(new String[] {targetGang.getGangName(), "neutral"}));
 				return true;
 			} else {
 				// Remove ally and enemy from other gang
@@ -100,12 +101,12 @@ public class StatusCommand implements CommandExecutor {
 				gang.removeAlly(targetGang.getGangName());
 				gang.removeEnemy(targetGang.getGangName());
 				
-				sender.sendMessage(ChatColor.GREEN + "You and " + targetGang.getGangName() + " are now neutral.");
+				sender.sendMessage(Lang.CHANGED_STATUS.getConfigValue(new String[] {targetGang.getGangName(), "neutral"}));
 			}
 		} else if (status.equalsIgnoreCase("ally")) {
 			// Not enemies nor allies
 			if (gang.isAlly(targetGang.getGangName())) {
-				sender.sendMessage(ChatColor.RED + "You and " + targetGang.getGangName() + " are already allies.");
+				sender.sendMessage(Lang.ALREADY_STATUS.getConfigValue(new String[] {targetGang.getGangName(), "allies"}));
 				return true;
 			} else {
 				// Add ally and remove enemy from other gang
@@ -116,12 +117,12 @@ public class StatusCommand implements CommandExecutor {
 				gang.addAlly(targetGang.getGangName());
 				gang.removeEnemy(targetGang.getGangName());
 				
-				sender.sendMessage(ChatColor.GREEN + "You and " + targetGang.getGangName() + " are now allies.");
+				sender.sendMessage(Lang.CHANGED_STATUS.getConfigValue(new String[] {targetGang.getGangName(), "allies"}));
 			}
 		} else if (status.equalsIgnoreCase("enemy")) {
 			// Not enemies nor allies
 			if (gang.isEnemy(targetGang.getGangName())) {
-				sender.sendMessage(ChatColor.RED + "You and " + targetGang.getGangName() + " are already enemies.");
+				sender.sendMessage(Lang.ALREADY_STATUS.getConfigValue(new String[] {targetGang.getGangName(), "l"}));
 				return true;
 			} else {
 				// Remove ally and add enemy from other gang
@@ -132,7 +133,7 @@ public class StatusCommand implements CommandExecutor {
 				gang.removeAlly(targetGang.getGangName());
 				gang.addEnemy(targetGang.getGangName());
 				
-				sender.sendMessage(ChatColor.GREEN + "You and " + targetGang.getGangName() + " are now enemies.");
+				sender.sendMessage(Lang.CHANGED_STATUS.getConfigValue(new String[] {targetGang.getGangName(), "enemies"}));
 			}
 		} else {
 			sender.sendMessage(ChatColor.RED + "You can only set gangs as neutral, ally or enemy.");	

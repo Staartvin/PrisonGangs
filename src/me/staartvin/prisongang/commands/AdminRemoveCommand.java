@@ -5,6 +5,7 @@ import java.util.List;
 
 import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -50,7 +51,7 @@ public class AdminRemoveCommand implements CommandExecutor {
 		gang = plugin.getGangHandler().getGang(gangName);
 		
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "That gang doesn't exist!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 
@@ -58,7 +59,7 @@ public class AdminRemoveCommand implements CommandExecutor {
 			return true;
 
 		// Notice everyone
-		plugin.getServer().broadcastMessage(ChatColor.YELLOW + "Gang '" + gang.getGangName() + "' was disbanded!");
+		plugin.getServer().broadcastMessage(Lang.GANG_DISBANDED.getConfigValue(new String[] {gang.getGangName()}));
 		
 		// Remove gang
 		plugin.getGangHandler().deleteGang(gang.getGangName());

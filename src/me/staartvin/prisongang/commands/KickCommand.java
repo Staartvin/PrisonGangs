@@ -4,6 +4,7 @@ import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.permissions.GangAbility;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -38,21 +39,21 @@ public class KickCommand implements CommandExecutor {
 
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "You are not in a gang!");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
 
 		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (!player.isInGang()) {
-			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
+			sender.sendMessage(Lang.NOT_IN_A_GANG.getConfigValue(null));
 			return true;
 		}
 		
 		gang = plugin.getGangHandler().getGang(player.getGangName());
 		
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "Your gang doesn't exist?!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 
@@ -60,17 +61,17 @@ public class KickCommand implements CommandExecutor {
 			return true;*/
 		
 		if (!plugin.getPermissionsManager().hasAbility(sender, GangAbility.KICK)) {
-			sender.sendMessage(ChatColor.RED + "You are not authorised to kick anybody!");
+			sender.sendMessage(Lang.NOT_AUTHORISED.getConfigValue(null));
 			return true;
 		}
 
 		if (target.equalsIgnoreCase(gang.getLeader())) {
-			sender.sendMessage(ChatColor.RED + "You cannot kick the leader.");
+			sender.sendMessage(Lang.CANNOT_KICK_LEADER.getConfigValue(null));
 			return true;
 		}
 		
 		if (sender.getName().equalsIgnoreCase(target)) {
-			sender.sendMessage(ChatColor.RED + "You cannot kick yourself, try /gang leave instead.");
+			sender.sendMessage(Lang.CANNOT_KICK_YOURSELF.getConfigValue(null));
 			return true;
 		}
 		
@@ -86,12 +87,12 @@ public class KickCommand implements CommandExecutor {
 		PlayerData oPlayer = plugin.getPlayerDataHandler().getPlayerData(target, true);
 		
 		if (oPlayer == null) {
-			sender.sendMessage(ChatColor.RED + "Player '" + target + "' does not exist.");
+			sender.sendMessage(Lang.PLAYER_DOES_NOT_EXIST.getConfigValue(new String[] {target}));
 			return true;
 		}
 		
 		if (!oPlayer.isInGang() || !oPlayer.getGangName().equalsIgnoreCase(gang.getGangName())) {
-			sender.sendMessage(ChatColor.RED + target + " is not in your gang!");
+			sender.sendMessage(Lang.PLAYER_IS_NOT_IN_YOUR_GANG.getConfigValue(new String[] {oPlayer.getGangName()}));
 			return true;
 		}
 		
@@ -108,11 +109,11 @@ public class KickCommand implements CommandExecutor {
 		oPlayer.setRankName(null);
 		
 		// Send sender a message
-		sender.sendMessage(ChatColor.GREEN + "You kicked '" + target + "' out of " + gang.getGangName() + "!");
+		sender.sendMessage(Lang.KICKED_PLAYER_OUT_OF_GANG.getConfigValue(new String[] {oPlayer.getGangName(), gang.getGangName()}));
 		
 		// Try to send kicked player a message
 		if (offPlayer.getPlayer() != null) {
-			offPlayer.getPlayer().sendMessage(ChatColor.RED + "You have been kicked from " + gang.getGangName());
+			offPlayer.getPlayer().sendMessage(Lang.YOU_GOT_KICKED.getConfigValue(new String[] {gang.getGangName(), sender.getName()}));
 		}
 
 		return true;

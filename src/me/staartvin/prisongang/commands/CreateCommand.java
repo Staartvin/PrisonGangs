@@ -6,6 +6,7 @@ import java.util.List;
 import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -34,7 +35,7 @@ public class CreateCommand implements CommandExecutor {
 		}
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "Only players can create gangs!");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
 
@@ -59,27 +60,24 @@ public class CreateCommand implements CommandExecutor {
 		Gang gang = plugin.getGangHandler().getGang(gangName);
 
 		if (gang != null) {
-			sender.sendMessage(ChatColor.RED
-					+ "There already is a gang with that name!");
+			sender.sendMessage(Lang.GANG_ALREADY_EXISTS.getConfigValue(null));
 			return true;
 		}
 		
 		if (containsInvalidChars(gangName)) {
-			sender.sendMessage(ChatColor.RED + "You cannot use formatting codes or unicode symbols in the name!");
+			sender.sendMessage(Lang.CANNOT_USE_UNICODE_CHARACTERS.getConfigValue(null));
 			return true;
 		}
 		
 		gang = plugin.getGangHandler().getGangByLeader(sender.getName());
 
 		if (gang != null) {
-			sender.sendMessage(ChatColor.RED
-					+ "You already have another gang called '"
-					+ gang.getGangName() + "'!");
+			sender.sendMessage(Lang.ALREADY_HAVE_ANOTHER_GANG.getConfigValue(new String[] {gang.getGangName()}));
 			return true;
 		}
 		
 		if (data.isInGang()) {
-			sender.sendMessage(ChatColor.RED + "You are already in a gang!");
+			sender.sendMessage(Lang.ALREADY_IN_ANOTHER_GANG.getConfigValue(new String[] {data.getGangName()}));
 			return true;
 		}
 
@@ -93,11 +91,9 @@ public class CreateCommand implements CommandExecutor {
 		data.setGangName(gang.getGangName());
 		data.setRankName(gang.getLeadersTitle());
 
-		sender.sendMessage(ChatColor.GREEN + "Your new gang '"
-				+ ChatColor.YELLOW + gangName + ChatColor.GREEN
-				+ "' has been created!");
+		sender.sendMessage(Lang.NEW_GANG_CREATED.getConfigValue(new String[] {gangName}));
 		
-		plugin.getServer().broadcastMessage(ChatColor.GREEN + "The new gang '" + ChatColor.GOLD + gangName + ChatColor.GREEN + "' of " + sender.getName() + " has arisen!");
+		plugin.getServer().broadcastMessage(Lang.NEW_GANG_ARISEN.getConfigValue(new String[] {gangName}));
 		
 		return true;
 	}

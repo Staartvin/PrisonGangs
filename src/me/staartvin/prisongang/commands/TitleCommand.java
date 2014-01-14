@@ -7,6 +7,7 @@ import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.permissions.GangAbility;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -50,7 +51,7 @@ public class TitleCommand implements CommandExecutor {
 		}
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "Only players can title other players!");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
 
@@ -64,7 +65,7 @@ public class TitleCommand implements CommandExecutor {
 		targetPlayer = plugin.getPlayerDataHandler().getPlayerData(args[1], true);
 
 		if (!player.isInGang()) {
-			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
+			sender.sendMessage(Lang.NOT_IN_A_GANG.getConfigValue(null));
 			return true;
 		}
 		
@@ -75,36 +76,35 @@ public class TitleCommand implements CommandExecutor {
 		}*/
 		
 		if (!plugin.getPermissionsManager().hasAbility(sender, GangAbility.CHANGE_TITLE)) {
-			sender.sendMessage(ChatColor.RED + "You are not authorised to change titles of members!");
+			sender.sendMessage(Lang.NOT_AUTHORISED.getConfigValue(null));
 			return true;
 		}
 		
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "There is no such gang!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 
 		if (!gang.getMembers().contains(targetPlayer.getPlayerName())) {
-			sender.sendMessage(ChatColor.RED + "That player is not in your gang!");
+			sender.sendMessage(Lang.PLAYER_IS_NOT_IN_YOUR_GANG.getConfigValue(new String[] {targetPlayer.getPlayerName()}));
 			return true;
 		}
 		
 		// Title is leaders title and player is not leader
 		if (title.equalsIgnoreCase(gang.getLeadersTitle()) && !gang.getLeader().equalsIgnoreCase(player.getPlayerName())) {
-			sender.sendMessage(ChatColor.RED + "You cannot use the leader's title as title!");
+			sender.sendMessage(Lang.CANNOT_USE_LEADERS_TITLE.getConfigValue(null));
 			return true;
 		}
 		
 		if (gang.getLeader().equals(targetPlayer.getPlayerName())) {
-			sender.sendMessage(ChatColor.RED + "You cannot change the title of the leader!");
+			sender.sendMessage(Lang.CANNOT_CHANGE_TITLE_LEADER.getConfigValue(null));
 			return true;
 		}
 		
 		targetPlayer.setRankName(title);
 
-		sender.sendMessage(ChatColor.GREEN + "You successfully set the title of " + targetPlayer.getPlayerName() + " to '" + ChatColor.GOLD + title + ChatColor.GREEN + "'.");
+		sender.sendMessage(Lang.CHANGED_TITLE_OF_PLAYER.getConfigValue(new String[] {targetPlayer.getPlayerName(), title}));
 		
-
 		return true;
 	}
 }

@@ -4,6 +4,7 @@ import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.permissions.GangAbility;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -35,7 +36,7 @@ public class AbilityAddCommand implements CommandExecutor {
 		String target = args[2];
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "Only players can add abilities!");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
 
@@ -44,14 +45,14 @@ public class AbilityAddCommand implements CommandExecutor {
 		Player targetPlayer = plugin.getServer().getPlayer(target);
 		
 		if (targetPlayer == null) {
-			sender.sendMessage(ChatColor.RED + "That player is not online!");
+			sender.sendMessage(Lang.PLAYER_NOT_ONLINE.getConfigValue(new String[] {target} ));
 			return true;
 		}
 
 		PlayerData targetData = plugin.getPlayerDataHandler().getPlayerData(targetPlayer.getName(), false);
 		
 		if (!player.isInGang()) {
-			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
+			sender.sendMessage(Lang.NOT_IN_A_GANG.getConfigValue(null));
 			return true;
 		}
 		
@@ -63,17 +64,17 @@ public class AbilityAddCommand implements CommandExecutor {
 		}*/
 		
 		if (!plugin.getPermissionsManager().hasAbility(sender, GangAbility.ADD_ABILITY)) {
-			sender.sendMessage(ChatColor.RED + "You are not authorised to add abilities!");
+			sender.sendMessage(Lang.NOT_AUTHORISED.getConfigValue(null));
 			return true;
 		}
 		
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "There is no such gang!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 		
 		if (!plugin.getPlayerDataHandler().isGangPartner((Player) sender, targetPlayer)) {
-			sender.sendMessage(ChatColor.RED + "That player is not in the same gang as you are.");
+			sender.sendMessage(Lang.PLAYER_IS_NOT_IN_SAME_GANG.getConfigValue(new String[] {targetPlayer.getName()}));
 			return true;
 		}
 
@@ -88,7 +89,7 @@ public class AbilityAddCommand implements CommandExecutor {
 		}
 		
 		if (plugin.getPermissionsManager().hasAbility(targetPlayer, ability)) {
-			sender.sendMessage(ChatColor.RED + "That player already has that ability!");
+			sender.sendMessage(Lang.PLAYER_ALREADY_HAS_ABILITY.getConfigValue(new String[] {targetPlayer.getName()}));
 			return true;
 		}
 		
@@ -96,8 +97,8 @@ public class AbilityAddCommand implements CommandExecutor {
 		
 		
 		// Notify both players
-		sender.sendMessage(ChatColor.GOLD + targetPlayer.getName() + ChatColor.GREEN + " has now gotten the ability '" + ability.name() + "'!");
-		targetPlayer.sendMessage(ChatColor.GREEN + "You got the ability '" + ability.name() + "'!");
+		sender.sendMessage(Lang.GAVE_ABILITY_TO_PLAYER.getConfigValue(new String[] {targetPlayer.getName(), ability.name().toLowerCase()}));
+		targetPlayer.sendMessage(Lang.GOT_ABILITY_FROM_PLAYER.getConfigValue(new String[] {ability.name().toLowerCase(), sender.getName()}));
 		
 		return true;
 	}

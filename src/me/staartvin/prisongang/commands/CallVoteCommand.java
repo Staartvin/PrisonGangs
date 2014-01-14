@@ -3,6 +3,7 @@ package me.staartvin.prisongang.commands;
 import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -33,27 +34,27 @@ public class CallVoteCommand implements CommandExecutor {
 		Gang gang;
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "Only players can call a vote!");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
 
 		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (!player.isInGang()) {
-			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
+			sender.sendMessage(Lang.NOT_IN_A_GANG.getConfigValue(null));
 			return true;
 		}
 		
 		gang = plugin.getGangHandler().getGang(player.getGangName());
 		
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "There is no such gang!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 
 		// Check if you can vote atm.
 		if (gang.isVoteInProgress()) {
-			sender.sendMessage(ChatColor.RED + "There is already an election running now!");
+			sender.sendMessage(Lang.ELECTION_ALREADY_RUNNING.getConfigValue(null));
 			return true;
 		}
 		
@@ -63,7 +64,7 @@ public class CallVoteCommand implements CommandExecutor {
 		//sender.sendMessage(ChatColor.GREEN + "You have voted for this election!");
 		
 		// Broadcast message in gang
-		gang.broadcastMessage(sender.getName() + " started an election for a new leader!");
+		gang.broadcastMessage(Lang.PLAYER_STARTED_ELECTION.getConfigValue(new String[] {sender.getName()}));
 		
 		return true;
 	}

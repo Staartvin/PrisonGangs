@@ -3,6 +3,7 @@ package me.staartvin.prisongang.commands;
 import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -33,33 +34,33 @@ public class VoteCommand implements CommandExecutor {
 		Gang gang;
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "Only players can vote!");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
 
 		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (!player.isInGang()) {
-			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
+			sender.sendMessage(Lang.NOT_IN_A_GANG.getConfigValue(null));
 			return true;
 		}
 		
 		gang = plugin.getGangHandler().getGang(player.getGangName());
 		
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "There is no such gang!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 
 		// Check if you can vote atm.
 		if (!gang.isVoteInProgress()) {
-			sender.sendMessage(ChatColor.RED + "There is no election running now!");
+			sender.sendMessage(Lang.NO_ELECTION_RUNNING.getConfigValue(null));
 			return true;
 		}
 		
 		// Check if player has already voted
 		if (gang.hasVoted(sender.getName())) {
-			sender.sendMessage(ChatColor.RED + "You have already voted!");
+			sender.sendMessage(Lang.YOU_ALREADY_VOTED.getConfigValue(null));
 			return true;
 		}
 		
@@ -67,10 +68,10 @@ public class VoteCommand implements CommandExecutor {
 		gang.vote(sender.getName());
 		
 		// Notify player
-		sender.sendMessage(ChatColor.GREEN + "You have voted for this election!");
+		sender.sendMessage(Lang.YOU_VOTED.getConfigValue(null));
 		
 		// Broadcast message in gang
-		gang.broadcastMessage(sender.getName() + " voted for a new leader!");
+		gang.broadcastMessage(Lang.PLAYER_VOTED_BROADCAST.getConfigValue(new String[] {sender.getName()}));
 		
 		return true;
 	}

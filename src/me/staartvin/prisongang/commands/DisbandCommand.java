@@ -3,6 +3,7 @@ package me.staartvin.prisongang.commands;
 import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -34,21 +35,21 @@ public class DisbandCommand implements CommandExecutor {
 
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "You are not in a gang!");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
 
 		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (!player.isInGang()) {
-			sender.sendMessage(ChatColor.RED + "You're not in a gang!");
+			sender.sendMessage(Lang.NOT_IN_A_GANG.getConfigValue(null));
 			return true;
 		}
 		
 		gang = plugin.getGangHandler().getGang(player.getGangName());
 		
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "Your gang doesn't exist?!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 
@@ -56,7 +57,7 @@ public class DisbandCommand implements CommandExecutor {
 			return true;*/
 
 		if (!sender.getName().equalsIgnoreCase(gang.getLeader())) {
-			sender.sendMessage(ChatColor.RED + "Only a leader can disband a gang.");
+			sender.sendMessage(Lang.ONLY_LEADER_CAN_DISBAND.getConfigValue(null));
 			return true;
 		}
 		
@@ -70,7 +71,7 @@ public class DisbandCommand implements CommandExecutor {
 		player.resetAbilities();
 
 		// Notice everyone
-		plugin.getServer().broadcastMessage(ChatColor.GREEN + "Gang '" + ChatColor.GOLD + gang.getGangName() + ChatColor.GREEN + "' has fallen!");
+		plugin.getServer().broadcastMessage(Lang.GANG_DISBANDED.getConfigValue(new String[] {gang.getGangName()}));
 
 		// Remove gang
 		plugin.getGangHandler().deleteGang(gang.getGangName());

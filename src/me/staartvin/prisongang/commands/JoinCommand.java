@@ -6,6 +6,7 @@ import java.util.List;
 import me.staartvin.prisongang.PrisonGang;
 import me.staartvin.prisongang.gang.Gang;
 import me.staartvin.prisongang.playerdata.PlayerData;
+import me.staartvin.prisongang.translation.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -52,21 +53,21 @@ public class JoinCommand implements CommandExecutor {
 		}
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "Only players can join a gang!");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
 
 		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
 
 		if (player.isInGang()) {
-			sender.sendMessage(ChatColor.RED + "You're already in a gang!");
+			sender.sendMessage(Lang.ALREADY_IN_ANOTHER_GANG.getConfigValue(new String[] {player.getGangName()}));
 			return true;
 		}
 		
 		gang = plugin.getGangHandler().getGang(gangName);
 		
 		if (gang == null) {
-			sender.sendMessage(ChatColor.RED + "There is no such gang!");
+			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
 
@@ -76,8 +77,7 @@ public class JoinCommand implements CommandExecutor {
 		// Check whether the gang is private and if so if the player is invited
 		if (gang.isPrivate()) {
 			if (!gang.isInvited(sender.getName())) {
-				sender.sendMessage(ChatColor.RED + "This is a private gang.");
-				sender.sendMessage(ChatColor.YELLOW + "You need to be invited first!");
+				sender.sendMessage(Lang.GANG_IS_PRIVATE.getConfigValue(null));
 				return true;	
 			}
 			
@@ -90,7 +90,7 @@ public class JoinCommand implements CommandExecutor {
 		
 		player.setGangName(gang.getGangName());
 		
-		sender.sendMessage(ChatColor.GREEN + "You successfully joined '" + gang.getGangName() + "'!");
+		sender.sendMessage(Lang.JOINED_GANG.getConfigValue(new String[] {gang.getGangName()}));
 		
 		return true;
 	}

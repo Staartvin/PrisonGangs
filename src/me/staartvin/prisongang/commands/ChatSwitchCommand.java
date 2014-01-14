@@ -3,8 +3,7 @@ package me.staartvin.prisongang.commands;
 import java.util.HashMap;
 
 import me.staartvin.prisongang.PrisonGang;
-
-import org.bukkit.ChatColor;
+import me.staartvin.prisongang.translation.Lang;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,18 +20,19 @@ public class ChatSwitchCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(final CommandSender sender, Command command,
 			String label, String[] args) {
-		
-		if (!plugin.getCommands().hasPermission(sender, "prisongang.chat.switch"))
+
+		if (!plugin.getCommands().hasPermission(sender,
+				"prisongang.chat.switch"))
 			return true;
-		
+
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "Only players can change chat mode");
+			sender.sendMessage(Lang.ONLY_PLAYER_ACTIVITY.getConfigValue(null));
 			return true;
 		}
-		
+
 		String currentMode = null;
 		HashMap<String, String> chatMode = plugin.getCommands().chatMode;
-		
+
 		// If there is already a key, use that key as latest one
 		if (plugin.getCommands().chatMode.containsKey(sender.getName())) {
 			currentMode = plugin.getCommands().chatMode.get(sender.getName());
@@ -40,7 +40,7 @@ public class ChatSwitchCommand implements CommandExecutor {
 			// There is no key specified, so default to global chat
 			currentMode = "global";
 		}
-		
+
 		String newMode = null;
 
 		// switch from global -> ally only -> gang only
@@ -51,13 +51,14 @@ public class ChatSwitchCommand implements CommandExecutor {
 		} else if (currentMode.equals("gang-only")) {
 			newMode = "global";
 		}
-		
+
 		// Change mode to new mode
 		chatMode.put(sender.getName(), newMode);
-		
+
 		// Notify player
-		sender.sendMessage(ChatColor.GREEN + "Chat mode has been changed to " + ChatColor.GOLD + newMode);
-		
+		sender.sendMessage(Lang.CHAT_MODE_SWITCHED
+				.getConfigValue(new String[] { newMode }));
+
 		return true;
 	}
 }

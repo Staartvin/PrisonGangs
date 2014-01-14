@@ -47,7 +47,7 @@ public class PrisonGang extends JavaPlugin {
 								+ "You do not have to edit this manually. \nThese settings will be changed by the plugin automatically."
 								+ "\nEditing any data in here manually will void warranty of a working plugin.");
 
-		messagesFile.createNewFile("Message have been loaded!",
+		messagesFile.createNewFile("Messages have been loaded!",
 				"You can change all messages here to your liking");
 		
 		// Load messages
