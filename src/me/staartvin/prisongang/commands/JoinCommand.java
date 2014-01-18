@@ -90,6 +90,9 @@ public class JoinCommand implements CommandExecutor {
 			gang.unInvitePlayer(sender.getName());
 		}
 		
+		// Announce that new player is joining
+		gang.broadcastMessage(Lang.BROADCAST_NEW_MEMBER.getConfigValue(new String[] {sender.getName()}));
+		
 		// Add player to gang
 		gang.addMember(sender.getName());
 		

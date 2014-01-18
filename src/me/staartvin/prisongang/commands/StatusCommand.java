@@ -143,6 +143,9 @@ public class StatusCommand implements CommandExecutor {
 						sender.sendMessage(Lang.SENT_GANG_ALLY_REQUEST
 								.getConfigValue(new String[] { targetGang
 										.getGangName() }));
+						
+						// Notify gang
+						targetGang.broadcastMessage(Lang.BROADCAST_NEW_ALLY_REQUEST.getConfigValue(new String[] {gang.getGangName()} ));
 						return true;
 					}
 				} else {
@@ -191,6 +194,15 @@ public class StatusCommand implements CommandExecutor {
 			sender.sendMessage(ChatColor.RED
 					+ "You can only set gangs as neutral, ally or enemy.");
 		}
+		
+		// Send message for other gangs
+		
+		// Change ally to allies
+		gang.broadcastMessage(Lang.BROADCAST_NEW_STATUS.getConfigValue(new String[] {targetGang.getGangName(), status.replace("y", "ies")}));
+		
+		// Change enemy to enemies
+		targetGang.broadcastMessage(Lang.BROADCAST_NEW_STATUS.getConfigValue(new String[] {gang.getGangName(), status.replace("y", "ies")}));
+		
 		return true;
 	}
 }

@@ -252,6 +252,22 @@ public enum Lang {
 	 * You've sent {0} an ally request.
 	 */
 	SENT_GANG_ALLY_REQUEST("sent-gang-ally-request", "&aYou've sent &6{0}&a an ally request."),
+	/**
+	 * {0} has sent your gang an ally request!
+	 */
+	BROADCAST_NEW_ALLY_REQUEST("broadcast-new-ally-request", "&6{0}&a has sent your gang an ally request!"),
+	/**
+	 * You and {0} are now {1}!
+	 */
+	BROADCAST_NEW_STATUS("broadcast-new-status", "&aYou and &6{0}&a are now &6{1}&a!"),
+	/**
+	 * {0} has joined the gang!
+	 */
+	BROADCAST_NEW_MEMBER("broadcast-new-member", "&6{0}&a has joined the gang!"),
+	/**
+	 * {0} has been kicked from the gang!
+	 */
+	BROADCAST_KICK_MEMBER("broadcast-kick-member", "&6{0}&a has been kicked from the gang!"),
 	
 	
 	
