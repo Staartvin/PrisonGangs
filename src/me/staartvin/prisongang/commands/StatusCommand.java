@@ -34,7 +34,7 @@ public class StatusCommand implements CommandExecutor {
 		}
 
 		String status = args[0];
-		PlayerData player;	
+		PlayerData player;
 		Gang gang;
 		Gang targetGang = null;
 
@@ -43,10 +43,11 @@ public class StatusCommand implements CommandExecutor {
 			List<String> newArgs = new ArrayList<String>();
 
 			for (int i = 1; i < args.length; i++) {
-					newArgs.add(args[i]);
+				newArgs.add(args[i]);
 			}
 
-			targetGang = plugin.getGangHandler().getGang(plugin.getCommands().getFullString(newArgs));
+			targetGang = plugin.getGangHandler().getGang(
+					plugin.getCommands().getFullString(newArgs));
 		}
 
 		if (!(sender instanceof Player)) {
@@ -54,7 +55,8 @@ public class StatusCommand implements CommandExecutor {
 			return true;
 		}
 
-		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(), false);
+		player = plugin.getPlayerDataHandler().getPlayerData(sender.getName(),
+				false);
 
 		if (targetGang == null) {
 			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
@@ -65,23 +67,24 @@ public class StatusCommand implements CommandExecutor {
 			sender.sendMessage(Lang.NOT_IN_A_GANG.getConfigValue(null));
 			return true;
 		}
-		
+
 		gang = plugin.getGangHandler().getGang(player.getGangName());
-		
+
 		/*if (!plugin.getCommands().hasPermission(sender, "prisongang.status")) {
 			return true;
 		}*/
-		
-		if (!plugin.getPermissionsManager().hasAbility(sender, GangAbility.CHANGE_STATUS)) {
+
+		if (!plugin.getPermissionsManager().hasAbility(sender,
+				GangAbility.CHANGE_STATUS)) {
 			sender.sendMessage(Lang.NOT_AUTHORISED.getConfigValue(null));
 			return true;
 		}
-		
+
 		if (gang == null) {
 			sender.sendMessage(Lang.GANG_DOES_NOT_EXIST.getConfigValue(null));
 			return true;
 		}
-		
+
 		if (gang.getGangName().equals(targetGang.getGangName())) {
 			sender.sendMessage(Lang.CANNOT_TARGET_OWN_GANG.getConfigValue(null));
 			return true;
@@ -90,53 +93,103 @@ public class StatusCommand implements CommandExecutor {
 		if (status.equalsIgnoreCase("neutral")) {
 			// Not enemies nor allies
 			if (gang.isNeutral(targetGang.getGangName())) {
-				sender.sendMessage(Lang.ALREADY_STATUS.getConfigValue(new String[] {targetGang.getGangName(), "neutral"}));
+				sender.sendMessage(Lang.ALREADY_STATUS
+						.getConfigValue(new String[] {
+								targetGang.getGangName(), "neutral" }));
 				return true;
 			} else {
+
+				// Remove possible ally request.
+				targetGang.removeAllyRequest(gang.getGangName());
+
+				// Remove possible ally request from this gang
+				gang.removeAllyRequest(targetGang.getGangName());
+
 				// Remove ally and enemy from other gang
 				targetGang.removeAlly(gang.getGangName());
 				targetGang.removeEnemy(gang.getGangName());
-				
+
 				// Remove ally and enemy from home gang
 				gang.removeAlly(targetGang.getGangName());
 				gang.removeEnemy(targetGang.getGangName());
-				
-				sender.sendMessage(Lang.CHANGED_STATUS.getConfigValue(new String[] {targetGang.getGangName(), "neutral"}));
+
+				sender.sendMessage(Lang.CHANGED_STATUS
+						.getConfigValue(new String[] {
+								targetGang.getGangName(), "neutral" }));
 			}
 		} else if (status.equalsIgnoreCase("ally")) {
 			// Not enemies nor allies
 			if (gang.isAlly(targetGang.getGangName())) {
-				sender.sendMessage(Lang.ALREADY_STATUS.getConfigValue(new String[] {targetGang.getGangName(), "allies"}));
+				sender.sendMessage(Lang.ALREADY_STATUS
+						.getConfigValue(new String[] {
+								targetGang.getGangName(), "allies" }));
 				return true;
 			} else {
-				// Add ally and remove enemy from other gang
-				targetGang.addAlly(gang.getGangName());
-				targetGang.removeEnemy(gang.getGangName());
-				
-				// Add ally and remove enemy from home gang
-				gang.addAlly(targetGang.getGangName());
-				gang.removeEnemy(targetGang.getGangName());
-				
-				sender.sendMessage(Lang.CHANGED_STATUS.getConfigValue(new String[] {targetGang.getGangName(), "allies"}));
+
+				// Check if target gang has already sent an ally request
+				if (!gang.hasAllyRequest(targetGang.getGangName())) {
+
+					// First check if a request was sent already
+					if (targetGang.hasAllyRequest(gang.getGangName())) {
+						// This gang already has sent a request
+						sender.sendMessage(Lang.GANG_ALREADY_SENT_ALLY_REQUEST
+								.getConfigValue(new String[] { targetGang
+										.getGangName() }));
+						return true;
+					} else {
+						// This gang has not sent a request to the target gang yet -> send them a request.
+						targetGang.addAllyRequest(gang.getGangName());
+
+						sender.sendMessage(Lang.SENT_GANG_ALLY_REQUEST
+								.getConfigValue(new String[] { targetGang
+										.getGangName() }));
+						return true;
+					}
+				} else {
+					// This gang got an ally request from the target gang -> now become allies
+
+					// Add ally and remove enemy from other gang
+					targetGang.addAlly(gang.getGangName());
+					targetGang.removeEnemy(gang.getGangName());
+
+					// Add ally and remove enemy from home gang
+					gang.addAlly(targetGang.getGangName());
+					gang.removeEnemy(targetGang.getGangName());
+
+					sender.sendMessage(Lang.CHANGED_STATUS
+							.getConfigValue(new String[] {
+									targetGang.getGangName(), "allies" }));
+				}
 			}
 		} else if (status.equalsIgnoreCase("enemy")) {
 			// Not enemies nor allies
 			if (gang.isEnemy(targetGang.getGangName())) {
-				sender.sendMessage(Lang.ALREADY_STATUS.getConfigValue(new String[] {targetGang.getGangName(), "l"}));
+				sender.sendMessage(Lang.ALREADY_STATUS
+						.getConfigValue(new String[] {
+								targetGang.getGangName(), "l" }));
 				return true;
 			} else {
+				// Remove possible ally request.
+				targetGang.removeAllyRequest(gang.getGangName());
+
+				// Remove possible ally request from this gang
+				gang.removeAllyRequest(targetGang.getGangName());
+
 				// Remove ally and add enemy from other gang
 				targetGang.removeAlly(gang.getGangName());
 				targetGang.addEnemy(gang.getGangName());
-				
+
 				// Remove ally and add enemy from home gang
 				gang.removeAlly(targetGang.getGangName());
 				gang.addEnemy(targetGang.getGangName());
-				
-				sender.sendMessage(Lang.CHANGED_STATUS.getConfigValue(new String[] {targetGang.getGangName(), "enemies"}));
+
+				sender.sendMessage(Lang.CHANGED_STATUS
+						.getConfigValue(new String[] {
+								targetGang.getGangName(), "enemies" }));
 			}
 		} else {
-			sender.sendMessage(ChatColor.RED + "You can only set gangs as neutral, ally or enemy.");	
+			sender.sendMessage(ChatColor.RED
+					+ "You can only set gangs as neutral, ally or enemy.");
 		}
 		return true;
 	}

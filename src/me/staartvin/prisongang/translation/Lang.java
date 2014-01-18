@@ -244,6 +244,14 @@ public enum Lang {
 	 * This message is invalid.
 	 */
 	INVALID_BROADCAST_MESSAGE("invalid-broadcast-message", "&4This message is invalid."),
+	/**
+	 * You've already sent an ally request to {0}.
+	 */
+	GANG_ALREADY_SENT_ALLY_REQUEST("gang-already-sent-ally-request", "&4You've already sent an ally request to &6{0}&4."),
+	/**
+	 * You've sent {0} an ally request.
+	 */
+	SENT_GANG_ALLY_REQUEST("sent-gang-ally-request", "&aYou've sent &6{0}&a an ally request."),
 	
 	
 	

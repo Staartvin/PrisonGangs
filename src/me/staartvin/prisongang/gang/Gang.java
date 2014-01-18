@@ -45,6 +45,12 @@ public class Gang {
 
 	// Enemies of the gang
 	private List<String> enemies = new ArrayList<String>();
+	
+	// Tag that is used to get the ally requests
+	private String allyRequestsTag = "allyrequests";
+	
+	// Tag that is used to get the people who voted.
+	private String votesTag = "votes";
 
 	/**
 	 * Get the members that are in this group
@@ -452,13 +458,13 @@ public class Gang {
 	 * @return true if it is; false otherwise.
 	 */
 	public boolean isVoteInProgress() {
-		if (!info.containsKey("votes"))
+		if (!info.containsKey(votesTag))
 			return false;
 
-		if (info.get("votes") == null)
+		if (info.get(votesTag) == null)
 			return false;
 
-		if (info.get("votes").trim().equals(""))
+		if (info.get(votesTag).trim().equals(""))
 			return false;
 
 		return true;
@@ -476,11 +482,11 @@ public class Gang {
 		if (hasVoted(playerName))
 			return;
 
-		String voted = info.get("votes");
+		String voted = info.get(votesTag);
 
 		voted = voted + "," + playerName;
 
-		info.put("votes", voted);
+		info.put(votesTag, voted);
 	}
 
 	/**
@@ -506,14 +512,14 @@ public class Gang {
 	 * Start the election for a new leader
 	 */
 	public void startElection() {
-		info.put("votes", System.currentTimeMillis() + "");
+		info.put(votesTag, System.currentTimeMillis() + "");
 	}
 
 	/**
 	 * Stop the current running election
 	 */
 	public void stopElection() {
-		info.remove("votes");
+		info.remove(votesTag);
 	}
 
 	/**
@@ -526,7 +532,7 @@ public class Gang {
 
 		// First argument == time that vote started, rest of the args are votes.
 
-		String voted = info.get("votes");
+		String voted = info.get(votesTag);
 		String[] args = voted.split(",");
 		
 		String timeInString = args[0];
@@ -546,10 +552,10 @@ public class Gang {
 	 * @return a list of player that voted; null if error.
 	 */
 	public List<String> getVotes() {
-		if (!info.containsKey("votes"))
+		if (!info.containsKey(votesTag))
 			return null;
 
-		String voted = info.get("votes");
+		String voted = info.get(votesTag);
 
 		// Invalid string
 		if (!voted.contains(","))
@@ -583,5 +589,85 @@ public class Gang {
 	 */
 	public boolean isFull() {
 		return members.size() >= plugin.getMainConfig().getMaxPlayers();
+	}
+	
+	/**
+	 * Get a list of gangs that want to be allies with this gang.
+	 * @return a list of gangs that want to be allies.
+	 */
+	public List<String> getAllyRequests() {
+		List<String> requestedAllies = new ArrayList<String>();
+		
+		if (!info.containsKey(allyRequestsTag)) {
+			return requestedAllies;
+		}
+		
+		String requests = info.get(allyRequestsTag);
+		
+		if (!requests.contains(",")) return requestedAllies;
+		
+		String[] array = requests.split(",");
+		
+		for (String ar: array) {
+			requestedAllies.add(ar.trim());
+		}
+		
+		return requestedAllies;
+	}
+	
+	/**
+	 * Remove a gang from the ally request list
+	 * @param gang Name of the gang to remove
+	 */
+	public void removeAllyRequest(String gang) {
+		List<String> requests = getAllyRequests();
+		
+		// That gang never requested allies
+		if (!requests.contains(gang)) return;
+		
+		// Remove gang from list.
+		requests.remove(gang);
+		
+		// Construct the new line.
+		String line = "";
+		
+		for (String req: requests) {
+			line = line + req + ",";
+		}
+		
+		if (!line.equals("")) {
+			// Save new line
+			info.put(allyRequestsTag, line);
+		} else {
+			// Remove line because we have no requests
+			info.remove(allyRequestsTag);
+		}
+	}
+	
+	/**
+	 * Add a gang to the ally request list
+	 * @param gang Name of the gang to add
+	 */
+	public void addAllyRequest(String gang) {
+		String requests = "";
+		
+		if (info.containsKey(allyRequestsTag)) {
+			requests = info.get(allyRequestsTag);
+		}
+		
+		// Update line
+		requests = requests + gang + ",";
+		
+		// Save line
+		info.put(allyRequestsTag, requests);
+	}
+	
+	/**
+	 * Check to see if this gang has an ally request from another gang
+	 * @param gangName Name of the gang that you want it checked for.
+	 * @return true if this gang has an ally request from the given gang; false otherwise.
+	 */
+	public boolean hasAllyRequest(String gangName) {
+		return getAllyRequests().contains(gangName);
 	}
 }
