@@ -268,6 +268,10 @@ public enum Lang {
 	 * {0} has been kicked from the gang!
 	 */
 	BROADCAST_KICK_MEMBER("broadcast-kick-member", "&6{0}&a has been kicked from the gang!"),
+	/**
+	 * {0} has been kicked from the gang!
+	 */
+	NO_NEW_LEADER_CHOSEN("no-new-leader-chosen", "There is no new leader chosen because there is only one player!"),
 	
 	
 	

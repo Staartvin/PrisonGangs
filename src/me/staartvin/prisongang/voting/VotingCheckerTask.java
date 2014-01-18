@@ -83,6 +83,12 @@ public class VotingCheckerTask extends BukkitRunnable {
 				
 				List<String> members = gang.getMembers();
 				
+				// Stop when there is only one member.
+				if (members.size() == 1) {
+					gang.broadcastMessage(Lang.NO_NEW_LEADER_CHOSEN.getConfigValue(null));
+					break;
+				}
+				
 				int randMemb = rand.nextInt(members.size());
 				
 				String member = members.get(randMemb);
