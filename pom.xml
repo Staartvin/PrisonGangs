@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>PrisonGang</groupId>
   <artifactId>PrisonGang</artifactId>
-  <version>1.0</version>
+  <version>Alpha-1.0</version>
   <name>PrisonGang</name>
   <description>A gang plugin for prison servers</description>
   <build>

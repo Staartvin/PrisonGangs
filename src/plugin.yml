@@ -2,7 +2,7 @@ name: PrisonGang
 author: Staartvin
 website: http://dev.bukkit.org/server-mods/prisongang/
 main: me.staartvin.prisongang.PrisonGang
-version: 1.0
+version: ${project.version}
 description: An advanced, yet simple gangs plugin for prisons.
 permissions:
     prisongang.create:
