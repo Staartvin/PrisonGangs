@@ -20,7 +20,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PrisonGang extends JavaPlugin {
 
-	// Working correctly?
 	private ConfigWrapper gangDataFile = new ConfigWrapper(this, "/data", "gangs.yml");
 	private ConfigWrapper playerDataFile = new ConfigWrapper(this, "/data", "playerdata.yml");
 	private ConfigWrapper messagesFile = new ConfigWrapper(this, "", "messages.yml");
