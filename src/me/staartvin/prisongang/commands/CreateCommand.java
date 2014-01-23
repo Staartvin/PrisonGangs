@@ -58,7 +58,15 @@ public class CreateCommand implements CommandExecutor {
 		String gangName = plugin.getCommands().getFullString(newArgs);
 
 		Gang gang = plugin.getGangHandler().getGang(gangName);
-
+		
+		int maxGangNameLength = this.plugin.getMainConfig().getGangTagMaxLength();
+		
+		if (gangName.length() > maxGangNameLength) {
+			sender.sendMessage(Lang.GANG_NAME_TOO_LONG.getConfigValue(null));
+			return true;
+		}
+		
+		
 		if (gang != null) {
 			sender.sendMessage(Lang.GANG_ALREADY_EXISTS.getConfigValue(null));
 			return true;

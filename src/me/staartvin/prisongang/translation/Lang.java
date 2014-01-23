@@ -25,6 +25,10 @@ public enum Lang {
 	 */
 	ONLY_PLAYER_ACTIVITY("only-player-activity", "&4Only players can do this!"),
 	/**
+	 * Gang name is too long!
+	 */
+	GANG_NAME_TOO_LONG("gang-name-too-long", "&cThe gang name you entered is too long!"),
+	/**
 	 * You're not in a gang!
 	 */
 	NOT_IN_A_GANG("not-in-a-gang", "&4You're not in a gang!"),
