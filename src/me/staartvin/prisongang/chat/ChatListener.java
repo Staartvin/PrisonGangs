@@ -100,8 +100,7 @@ public class ChatListener implements Listener {
 
 		// Change format
 		format = format.replace(gang_chat, gPrefix)
-				.replace(title_chat, tPrefix)
-				.replace(chatmode, chatModeName);
+				.replace(title_chat, tPrefix).replace(chatmode, chatModeName);
 
 		// Remove double spaces
 		format = format.replaceAll("\\s+", " ");
@@ -181,8 +180,10 @@ public class ChatListener implements Listener {
 		// Find extra space after '<'
 		int charpoint = oldString.indexOf("%1$s") - 1;
 
-		// Delete char so space is removed
-		newFormat.deleteCharAt(charpoint);
+		if (charpoint >= 0) {
+			// Delete char so space is removed
+			newFormat.deleteCharAt(charpoint);
+		}
 
 		return newFormat.toString().trim();
 	}
