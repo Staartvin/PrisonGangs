@@ -11,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * This pre-made class allows you to create a configuration file (.yml)
- * Before you every access the files, you have to run {@link #createNewFile()}
+ * Before you access the files, you have to run {@link #createNewFile()}
  * at least once!
  * 
  * @author Staartvin
