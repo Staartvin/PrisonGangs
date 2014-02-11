@@ -10,18 +10,18 @@
 		<sourceDirectory>src</sourceDirectory>
 
 		<resources>
-		    
+
 			<resource>
 				<directory>src</directory>
 				<excludes>
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</resource>
-			
+
 		</resources>
 
 		<plugins>
-		    
+
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
@@ -30,26 +30,27 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			
+
 		</plugins>
 
-		<repositories>
-
-			<repository>
-				<id>bukkit-repo</id>
-				<url>http://repo.bukkit.org/content/groups/public/</url>
-			</repository>
-
-		</repositories>
-
-		<dependencies>
-
-			<dependency>
-				<groupId>org.bukkit</groupId>
-				<artifactId>bukkit</artifactId>
-				<version>1.7.2-R0.3</version>
-			</dependency>
-
-		</dependencies>
 	</build>
+
+	<repositories>
+
+		<repository>
+			<id>bukkit-repo</id>
+			<url>http://repo.bukkit.org/content/groups/public/</url>
+		</repository>
+
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>bukkit</artifactId>
+			<version>1.7.2-R0.2</version>
+		</dependency>
+
+	</dependencies>
 </project>
