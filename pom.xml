@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>PrisonGang</groupId>
 	<artifactId>PrisonGang</artifactId>
-	<version>1.0-Dev</version>
+	<version>Alpha-1.0-Dev</version>
 	<name>PrisonGang</name>
 	<description>PrisonGang plugin for Bukkit</description>
 	<build>
