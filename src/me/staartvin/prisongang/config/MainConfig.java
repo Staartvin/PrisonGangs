@@ -44,6 +44,7 @@ public class MainConfig {
 		config.addDefault("chat.chatmode prefix", "[&6%chatmode%&r]");
 		
 		config.addDefault("gangs.max players", 10);
+		config.addDefault("gangs.max name length", 12);
 		
 		config.addDefault("logger.log verbose", true);
 		
@@ -62,6 +63,10 @@ public class MainConfig {
 		plugin.gang_chat_prefix = getGangPrefix();
 		plugin.title_chat_prefix = getTitlePrefix();
 		plugin.chatmode_prefix = getChatModePrefix();
+	}
+	
+	public int getGangTagMaxLength() {
+		return config.getInt("gangs.max name length");
 	}
 	
 	public String getGangPrefix() {

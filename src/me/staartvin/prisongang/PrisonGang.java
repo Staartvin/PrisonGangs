@@ -38,6 +38,7 @@ public class PrisonGang extends JavaPlugin {
 
 	private VaultHandler vaultHandler;
 
+	// TODO implement messages.yml
 	public void onEnable() {
 		gangDataFile
 				.createNewFile(

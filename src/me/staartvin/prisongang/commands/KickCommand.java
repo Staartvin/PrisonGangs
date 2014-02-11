@@ -111,9 +111,6 @@ public class KickCommand implements CommandExecutor {
 		// Send sender a message
 		sender.sendMessage(Lang.KICKED_PLAYER_OUT_OF_GANG.getConfigValue(new String[] {oPlayer.getGangName(), gang.getGangName()}));
 		
-		// Notify gang members
-		gang.broadcastMessage(Lang.BROADCAST_KICK_MEMBER.getConfigValue(new String[] {oPlayer.getPlayerName()}));
-		
 		// Try to send kicked player a message
 		if (offPlayer.getPlayer() != null) {
 			offPlayer.getPlayer().sendMessage(Lang.YOU_GOT_KICKED.getConfigValue(new String[] {gang.getGangName(), sender.getName()}));
